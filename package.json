@@ -1,0 +1,29 @@
+{
+  "name": "faq-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Self-contained MERN knowledge platform: FAQ + AI chatbot, structured query intake, Q&A forum, reputation, moderation, and automated maintenance.",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "lint": "npm run lint -w server && npm run lint -w client",
+    "test": "npm run test -w server",
+    "build": "npm run build -w client",
+    "seed": "npm run seed -w server",
+    "start": "npm run start -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
