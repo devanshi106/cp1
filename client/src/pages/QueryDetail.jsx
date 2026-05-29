@@ -1,20 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getQuery, deleteQuery } from '../api/queries.js';
+import {
+  listAnswers,
+  postAnswer,
+  likeAnswer,
+  deleteAnswer,
+  markSolution,
+  reportQuery,
+  reportAnswer,
+} from '../api/answers.js';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function QueryDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [query, setQuery] = useState(null);
+  const [answers, setAnswers] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const loadAll = useCallback(async () => {
+    const [q, a] = await Promise.all([getQuery(id), listAnswers(id)]);
+    setQuery(q);
+    setAnswers(a);
+  }, [id]);
 
   useEffect(() => {
     let active = true;
     (async () => {
       try {
-        const q = await getQuery(id);
-        if (active) setQuery(q);
+        await loadAll();
       } catch (err) {
         if (active) setError(err.response?.status === 404 ? 'Question not found.' : 'Failed to load.');
       } finally {
@@ -24,13 +41,22 @@ export default function QueryDetail() {
     return () => {
       active = false;
     };
-  }, [id]);
+  }, [loadAll]);
 
-  const onDelete = async () => {
+  const onDeleteQuery = async () => {
     if (!window.confirm('Delete this question?')) return;
     await deleteQuery(id);
     navigate('/queries');
   };
+
+  const onReportQuery = async () => {
+    const reason = window.prompt('Why are you reporting this question?');
+    if (reason === null) return;
+    await reportQuery(id, reason);
+    window.alert('Thanks — a moderator will review it.');
+  };
+
+  const resolved = query?.status === 'resolved';
 
   if (loading) return <div className="container">Loading…</div>;
   if (error) return <div className="container"><p className="muted">{error}</p></div>;
@@ -43,16 +69,23 @@ export default function QueryDetail() {
 
       <div className="detail-head">
         <h1>{query.title}</h1>
-        {query.is_owner && (
-          <div className="row">
-            <Link to={`/queries/${id}/edit`} className="btn-link">
-              Edit
-            </Link>
-            <button className="btn-link danger" onClick={onDelete}>
-              Delete
+        <div className="row">
+          {query.is_owner && (
+            <>
+              <Link to={`/queries/${id}/edit`} className="btn-link">
+                Edit
+              </Link>
+              <button className="btn-link danger" onClick={onDeleteQuery}>
+                Delete
+              </button>
+            </>
+          )}
+          {user && !query.is_owner && (
+            <button className="btn-link" onClick={onReportQuery}>
+              Report
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div className="query-meta">
@@ -68,9 +101,8 @@ export default function QueryDetail() {
 
       {query.is_flagged_duplicate && (
         <div className="alert info">
-          Flagged as a possible duplicate{query.similarity_score
-            ? ` (${Math.round(query.similarity_score * 100)}% match)`
-            : ''}
+          Flagged as a possible duplicate
+          {query.similarity_score ? ` (${Math.round(query.similarity_score * 100)}% match)` : ''}
           {query.duplicate_of && (
             <>
               {' — '}
@@ -98,7 +130,135 @@ export default function QueryDetail() {
       )}
 
       <hr />
-      <p className="muted">Answers and the solution engine arrive in Milestone 3.</p>
+
+      <h2>
+        {answers.length} {answers.length === 1 ? 'Answer' : 'Answers'}
+      </h2>
+
+      <div className="answer-list">
+        {answers.map((a) => (
+          <AnswerCard
+            key={a.id}
+            answer={a}
+            canAccept={query.is_owner && !resolved}
+            canLike={Boolean(user) && !a.is_owner}
+            onChange={loadAll}
+            queryId={id}
+          />
+        ))}
+        {answers.length === 0 && <p className="muted">No answers yet.</p>}
+      </div>
+
+      {user && !resolved && <AnswerForm queryId={id} onPosted={loadAll} />}
+      {resolved && <p className="muted">This question is resolved and no longer accepts answers.</p>}
     </div>
+  );
+}
+
+function AnswerCard({ answer, canAccept, canLike, onChange, queryId }) {
+  const [busy, setBusy] = useState(false);
+
+  const onLike = async () => {
+    setBusy(true);
+    try {
+      await likeAnswer(answer.id);
+      await onChange();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const onAccept = async () => {
+    setBusy(true);
+    try {
+      await markSolution(queryId, answer.id);
+      await onChange();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const onReport = async () => {
+    const reason = window.prompt('Why are you reporting this answer?');
+    if (reason === null) return;
+    await reportAnswer(answer.id, reason);
+    window.alert('Thanks — a moderator will review it.');
+  };
+
+  const onDelete = async () => {
+    if (!window.confirm('Delete this answer?')) return;
+    await deleteAnswer(answer.id);
+    await onChange();
+  };
+
+  return (
+    <article className={`answer-card ${answer.is_accepted ? 'accepted' : ''}`}>
+      {answer.is_accepted && <span className="badge accepted-badge">✓ Solution</span>}
+      <div className="answer-body">{answer.body}</div>
+      <div className="answer-meta">
+        <button
+          className={`like-btn ${answer.liked_by_me ? 'on' : ''}`}
+          onClick={onLike}
+          disabled={!canLike || busy}
+          title={canLike ? 'Like this answer' : 'You cannot like this answer'}
+        >
+          ▲ {answer.like_count}
+        </button>
+        <span className="by">by {answer.author?.name ?? 'Unknown'}</span>
+        {canAccept && !answer.is_accepted && (
+          <button className="btn-link" onClick={onAccept} disabled={busy}>
+            Mark as solution
+          </button>
+        )}
+        {answer.is_owner && (
+          <button className="btn-link danger" onClick={onDelete}>
+            Delete
+          </button>
+        )}
+        {!answer.is_owner && (
+          <button className="btn-link" onClick={onReport}>
+            Report
+          </button>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function AnswerForm({ queryId, onPosted }) {
+  const [body, setBody] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    try {
+      await postAnswer(queryId, body);
+      setBody('');
+      await onPosted();
+    } catch (err) {
+      setError(err.response?.data?.error ?? 'Could not post your answer.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <form className="form answer-form" onSubmit={onSubmit}>
+      <h3>Your answer</h3>
+      {error && <div className="alert">{error}</div>}
+      <textarea
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+        rows={5}
+        placeholder="Share what you know… (Markdown supported)"
+        required
+      />
+      <button className="btn-primary" disabled={busy}>
+        {busy ? 'Posting…' : 'Post answer'}
+      </button>
+    </form>
   );
 }

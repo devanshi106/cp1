@@ -9,6 +9,7 @@ import QueryList from './pages/QueryList.jsx';
 import QueryDetail from './pages/QueryDetail.jsx';
 import AskQuery from './pages/AskQuery.jsx';
 import EditQuery from './pages/EditQuery.jsx';
+import Leaderboard from './pages/Leaderboard.jsx';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/queries" element={<QueryList />} />
           <Route path="/queries/:id" element={<QueryDetail />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route
             path="/ask"
             element={
