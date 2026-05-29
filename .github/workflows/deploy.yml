@@ -1,0 +1,51 @@
+name: Deploy
+
+# Deployment is intentionally inert by default: this MVP runs on zero paid
+# infrastructure. The build/verify gate below always runs so `main` stays
+# deployable; the actual deploy step is commented out until the company wires in
+# its own hosting + secrets (see PLANNING §13). Enable by uncommenting the
+# "Deploy" step and adding the required repository secrets.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify (lint, test, build)
+        run: |
+          npm run lint
+          npm test
+          npm run build
+        env:
+          NODE_ENV: test
+
+      # --- Enable deployment by uncommenting and configuring for your host ---
+      #
+      # - name: Build server image
+      #   run: docker build -t $REGISTRY/faq-platform-api:$GITHUB_SHA ./server
+      #
+      # - name: Deploy
+      #   env:
+      #     DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}   # add in repo settings
+      #     MONGODB_URI:  ${{ secrets.MONGODB_URI }}
+      #     AI_API_KEY:   ${{ secrets.AI_API_KEY }}
+      #     JWT_ACCESS_SECRET:  ${{ secrets.JWT_ACCESS_SECRET }}
+      #     JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+      #   run: |
+      #     echo "Push the image and roll out using your platform's CLI here,"
+      #     echo "e.g. fly deploy / render deploy / kubectl set image ..."

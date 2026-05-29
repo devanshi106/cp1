@@ -108,6 +108,25 @@ The MVP runs on the Gemini **free tier** with no billing enabled, so over-quota 
 
 ---
 
+## Demo
+
+`npm run seed` loads a self-consistent, **offline-embedded** dataset (FAQ entries, questions, a resolved-and-promoted thread, reputation) so you can explore every feature with no live AI calls.
+
+Seed accounts (password in parentheses):
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@example.com` | `admin12345` |
+| User | `demo@example.com` | `demo12345` |
+| User | `alex@example.com` | `alex12345` |
+| User | `sam@example.com` | `sam12345` |
+
+A scripted ~8-minute walkthrough touching nearly every feature lives in the **Demo loop checklist** at the bottom of [`TASK.md`](./TASK.md): register → ask a question (quality gates fire) → answer → resolve → reputation/badges → admin moderation/merge/ban → FAQ promotion → RAG chatbot → trigger a maintenance job → finish on the green CI tab.
+
+> Contributions welcome — see [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+---
+
 ## License
 
 [MIT](./LICENSE) © 2026 vicharanashala
