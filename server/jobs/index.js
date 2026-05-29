@@ -3,12 +3,18 @@
 // / Milestone 7). New maintenance crons register here in later milestones.
 import cron from 'node-cron';
 import { finalizeSolutions } from './finalizeSolutions.js';
+import { expireBans } from './expireBans.js';
 
 export const jobs = {
   'finalize-solutions': {
     schedule: '0 3 * * *', // daily at 03:00
     description: 'Resolve queries past their solution grace period (Path A/B).',
     handler: finalizeSolutions,
+  },
+  'expire-bans': {
+    schedule: '0 * * * *', // hourly
+    description: 'Lift time-limited bans whose deadline has passed.',
+    handler: expireBans,
   },
 };
 

@@ -1,10 +1,10 @@
 import { Answer } from '../models/Answer.js';
 import { Query } from '../models/Query.js';
 import { Like } from '../models/Like.js';
-import { User } from '../models/User.js';
 import { ModerationQueue } from '../models/ModerationQueue.js';
 import { ApiError } from '../utils/ApiError.js';
 import { notify } from './notificationService.js';
+import { awardPoints } from './badgeService.js';
 import {
   POINTS,
   QUERY_STATUS,
@@ -100,14 +100,14 @@ export async function toggleLike(user, answerId) {
     await existing.deleteOne();
     answer.like_count = Math.max(0, answer.like_count - 1);
     await answer.save();
-    await User.updateOne({ _id: answer.author_id }, { $inc: { points: -POINTS.ANSWER_LIKED } });
+    await awardPoints(answer.author_id, -POINTS.ANSWER_LIKED);
     return { liked: false, like_count: answer.like_count };
   }
 
   await Like.create({ answer_id: answer._id, user_id: user._id });
   answer.like_count += 1;
   await answer.save();
-  await User.updateOne({ _id: answer.author_id }, { $inc: { points: POINTS.ANSWER_LIKED } });
+  await awardPoints(answer.author_id, POINTS.ANSWER_LIKED);
   await notify({
     recipientId: answer.author_id,
     type: NOTIFICATION_TYPE.LIKE,

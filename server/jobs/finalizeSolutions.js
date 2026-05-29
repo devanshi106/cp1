@@ -1,8 +1,8 @@
 import { Answer } from '../models/Answer.js';
 import { Query } from '../models/Query.js';
-import { User } from '../models/User.js';
 import { AuditLog } from '../models/AuditLog.js';
 import { notify } from '../services/notificationService.js';
+import { awardPoints } from '../services/badgeService.js';
 import {
   QUERY_STATUS,
   NOTIFICATION_TYPE,
@@ -80,8 +80,8 @@ export async function finalizeSolutions({ force = false } = {}) {
 
     // Points only on Path A — Path B is an automatic keep, no reward.
     if (pathA) {
-      await User.updateOne({ _id: accepted.author_id }, { $inc: { points: POINTS.ANSWER_ACCEPTED } });
-      await User.updateOne({ _id: query.author_id }, { $inc: { points: POINTS.QUERY_RESOLVED } });
+      await awardPoints(accepted.author_id, POINTS.ANSWER_ACCEPTED);
+      await awardPoints(query.author_id, POINTS.QUERY_RESOLVED);
     }
 
     await notify({
