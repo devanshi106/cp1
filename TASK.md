@@ -4,7 +4,7 @@
 > Convention: `[ ]` todo · `[~]` in progress · `[x]` done · `[!]` blocked. Add new items as they surface — never delete, mark done. Reference `PLANNING.md` for the *why*.
 
 **Last updated:** 2026-05-29
-**Current focus:** Milestone 5 — FAQ + Chatbot + Notifications (Milestones 1–4 complete & pushed)
+**Current focus:** Milestone 6 — Admin (Milestones 1–5 complete & pushed)
 **Build approach:** vertical slice — one complete end-to-end loop before going wide.
 
 ---
@@ -17,7 +17,7 @@
 | 2 | Ask a Query | AI showcase: intake + quality gates | `[x]` |
 | 3 | Forum + Solution Engine | Answers, likes, resolution, points | `[x]` |
 | 4 | Badges & Bans | Reputation + governance basics | `[x]` |
-| 5 | FAQ + Chatbot + Notifications | RAG + knowledge promotion | `[ ]` |
+| 5 | FAQ + Chatbot + Notifications | RAG + knowledge promotion | `[x]` |
 | 6 | Admin | Dashboard + moderation tooling | `[ ]` |
 | 7 | Maintenance crons | Scheduled jobs + manual triggers | `[ ]` |
 | 8 | Polish & ship | Design, docs, deploy-ready | `[ ]` |
@@ -28,7 +28,7 @@
 
 > The handful of tasks being worked on right now. Pull from the milestone below as capacity frees up.
 
-- [ ] _Milestones 1–4 complete — pull from Milestone 5_
+- [ ] _Milestones 1–5 complete — pull from Milestone 6_
 
 ---
 
@@ -104,14 +104,14 @@ Goal: reputation made visible + first governance teeth.
 
 Goal: the knowledge surface + self-improving loop.
 
-- [ ] FAQ accordion UI, category-organized
-- [ ] FAQ keyword + semantic search
-- [ ] Two-tier RAG chatbot: embed → Tier 1 FAQ → Tier 2 community Q&A → compose (`flash`)
-- [ ] Chatbot citations + graceful fallback on no-match / 429
-- [ ] Chatbot session persistence (`chatbot_sessions`)
-- [ ] Resolved-Q&A → FAQ promotion (with `source`, `source_query_id`)
-- [ ] Notifications: polling `unread-count` endpoint + notification panel/bell
-- [ ] Personalized greeting banner (time-of-day + login streak)
+- [x] FAQ accordion UI, category-organized
+- [x] FAQ keyword + semantic search
+- [x] Two-tier RAG chatbot: embed → Tier 1 FAQ → Tier 2 community Q&A → compose (`flash`)
+- [x] Chatbot citations + graceful fallback on no-match / 429
+- [x] Chatbot session persistence (`chatbot_sessions`)
+- [x] Resolved-Q&A → FAQ promotion (with `source`, `source_query_id`)
+- [x] Notifications: polling `unread-count` endpoint + notification panel/bell
+- [x] Personalized greeting banner (time-of-day + login streak)
 
 ---
 
