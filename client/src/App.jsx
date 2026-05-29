@@ -5,6 +5,10 @@ import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import NotFound from './pages/NotFound.jsx';
+import QueryList from './pages/QueryList.jsx';
+import QueryDetail from './pages/QueryDetail.jsx';
+import AskQuery from './pages/AskQuery.jsx';
+import EditQuery from './pages/EditQuery.jsx';
 
 export default function App() {
   return (
@@ -15,6 +19,24 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/queries" element={<QueryList />} />
+          <Route path="/queries/:id" element={<QueryDetail />} />
+          <Route
+            path="/ask"
+            element={
+              <ProtectedRoute>
+                <AskQuery />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/queries/:id/edit"
+            element={
+              <ProtectedRoute>
+                <EditQuery />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin"
             element={

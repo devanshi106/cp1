@@ -17,6 +17,8 @@ export default function Navbar() {
       </Link>
       <div className="nav-links">
         <Link to="/">Home</Link>
+        <Link to="/queries">Questions</Link>
+        {user && <Link to="/ask">Ask</Link>}
         {isAdmin && <Link to="/admin">Admin</Link>}
         {user ? (
           <>

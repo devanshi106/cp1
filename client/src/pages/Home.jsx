@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function Home() {
@@ -11,10 +12,14 @@ export default function Home() {
         the FAQ.
       </p>
       {user ? (
-        <p>Welcome back, {user.name}. The feature pillars land in the next milestones.</p>
+        <p>
+          Welcome back, {user.name}.{' '}
+          <Link to="/ask">Ask a question</Link> or <Link to="/queries">browse the community</Link>.
+        </p>
       ) : (
         <p>
-          Create an account to ask questions, answer the community, and earn reputation.
+          Create an account to ask questions, answer the community, and earn reputation.{' '}
+          <Link to="/queries">Browse existing questions →</Link>
         </p>
       )}
       <ul className="feature-grid">
