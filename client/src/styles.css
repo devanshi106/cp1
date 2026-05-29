@@ -731,6 +731,101 @@ textarea {
   color: var(--text);
 }
 
+/* Admin */
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.admin-tabs a {
+  padding: 0.5rem 0.9rem;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+.admin-tabs a.active {
+  color: var(--text);
+  border-bottom-color: var(--primary);
+  text-decoration: none;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.metric-card strong {
+  font-size: 1.8rem;
+}
+.metric-card span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.admin-table th {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.admin-table .small,
+.small {
+  font-size: 0.82rem;
+}
+.admin-table .nowrap,
+.nowrap {
+  white-space: nowrap;
+}
+.inline-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.inline-filter select {
+  padding: 0.35rem 0.5rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.badge.type-duplicate { color: #f0b429; border-color: #f0b429; }
+.badge.type-report { color: var(--danger); border-color: var(--danger); }
+.badge.type-spam { color: var(--danger); border-color: var(--danger); }
+.badge.type-gibberish { color: #c586ff; border-color: #c586ff; }
+.cluster {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+.cluster ul {
+  margin: 0 0 0.5rem;
+  padding-left: 1.1rem;
+}
+
 @media (max-width: 600px) {
   .navbar {
     flex-direction: column;

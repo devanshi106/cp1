@@ -14,6 +14,13 @@ import EditQuery from './pages/EditQuery.jsx';
 import Leaderboard from './pages/Leaderboard.jsx';
 import Profile from './pages/Profile.jsx';
 import Faq from './pages/Faq.jsx';
+import AdminLayout from './pages/admin/AdminLayout.jsx';
+import AdminOverview from './pages/admin/AdminOverview.jsx';
+import AdminModeration from './pages/admin/AdminModeration.jsx';
+import AdminFaqManager from './pages/admin/AdminFaqManager.jsx';
+import AdminUsers from './pages/admin/AdminUsers.jsx';
+import AdminAudit from './pages/admin/AdminAudit.jsx';
+import AdminMaintenance from './pages/admin/AdminMaintenance.jsx';
 
 export default function App() {
   return (
@@ -50,13 +57,17 @@ export default function App() {
             path="/admin"
             element={
               <ProtectedRoute adminOnly>
-                <div className="container">
-                  <h1>Admin</h1>
-                  <p>Admin dashboard arrives in Milestone 6.</p>
-                </div>
+                <AdminLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<AdminOverview />} />
+            <Route path="moderation" element={<AdminModeration />} />
+            <Route path="faq" element={<AdminFaqManager />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="audit" element={<AdminAudit />} />
+            <Route path="maintenance" element={<AdminMaintenance />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
