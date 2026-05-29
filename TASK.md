@@ -4,7 +4,7 @@
 > Convention: `[ ]` todo · `[~]` in progress · `[x]` done · `[!]` blocked. Add new items as they surface — never delete, mark done. Reference `PLANNING.md` for the *why*.
 
 **Last updated:** 2026-05-29
-**Current focus:** Milestone 2 — Ask a Query (Milestone 1 complete & pushed)
+**Current focus:** Milestone 3 — Forum + Solution Engine (Milestones 1 & 2 complete & pushed)
 **Build approach:** vertical slice — one complete end-to-end loop before going wide.
 
 ---
@@ -14,7 +14,7 @@
 | # | Milestone | Theme | Status |
 |---|---|---|---|
 | 1 | Foundation | Workspaces, models, auth, CI, Docker | `[x]` |
-| 2 | Ask a Query | AI showcase: intake + quality gates | `[ ]` |
+| 2 | Ask a Query | AI showcase: intake + quality gates | `[x]` |
 | 3 | Forum + Solution Engine | Answers, likes, resolution, points | `[ ]` |
 | 4 | Badges & Bans | Reputation + governance basics | `[ ]` |
 | 5 | FAQ + Chatbot + Notifications | RAG + knowledge promotion | `[ ]` |
@@ -28,7 +28,7 @@
 
 > The handful of tasks being worked on right now. Pull from the milestone below as capacity frees up.
 
-- [ ] _Milestone 1 complete — pull from Milestone 2_
+- [ ] _Milestones 1 & 2 complete — pull from Milestone 3_
 
 ---
 
@@ -55,18 +55,18 @@ Goal: a runnable skeleton with auth, models, green CI, and one-command startup.
 
 Goal: the full quality-gated intake flow, the project's standout AI feature.
 
-- [ ] Query submission form: title, body (markdown), category, tags, anonymous toggle
-- [ ] Screenshot upload via Multer → local `uploads/`; served as static files
-- [ ] Optional `contact_email` context enrichment
-- [ ] Gibberish detection — Layer 1 heuristics (length, repeated chars, dictionary-word ratio)
-- [ ] Gibberish detection — Layer 2 AI escalation on borderline cases only (`flash-lite`)
-- [ ] Spam escalation wiring: increment `spam_flag_count`, apply 1st/2nd/5th/10th penalties
-- [ ] Auto-correct: opt-in "Check grammar" button → diff modal → preserve `original_body`
-- [ ] Embedding on create/edit via `ai.js`; cache (never re-embed unchanged text)
-- [ ] `vectorService.js` — in-app cosine similarity search
-- [ ] Duplicate detection: >80% match → warn → View existing / Post anyway (flag + queue)
-- [ ] Soft-delete for own queries
-- [ ] Query detail + list views
+- [x] Query submission form: title, body (markdown), category, tags, anonymous toggle
+- [x] Screenshot upload via Multer → local `uploads/`; served as static files
+- [x] Optional `contact_email` context enrichment
+- [x] Gibberish detection — Layer 1 heuristics (length, repeated chars, dictionary-word ratio)
+- [x] Gibberish detection — Layer 2 AI escalation on borderline cases only (`flash-lite`)
+- [x] Spam escalation wiring: increment `spam_flag_count`, apply 1st/2nd/5th/10th penalties
+- [x] Auto-correct: opt-in "Check grammar" button → diff modal → preserve `original_body`
+- [x] Embedding on create/edit via `ai.js`; cache (never re-embed unchanged text)
+- [x] `vectorService.js` — in-app cosine similarity search
+- [x] Duplicate detection: >80% match → warn → View existing / Post anyway (flag + queue)
+- [x] Soft-delete for own queries
+- [x] Query detail + list views
 
 ---
 
