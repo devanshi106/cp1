@@ -3,9 +3,9 @@
 > **Living task tracker.** Active work, milestones, backlog, and anything discovered mid-process.
 > Convention: `[ ]` todo · `[~]` in progress · `[x]` done · `[!]` blocked. Add new items as they surface — never delete, mark done. Reference `PLANNING.md` for the *why*.
 
-**Last updated:** 2026-05-29
-**Current focus:** Shipped — all 8 milestones complete & pushed (only the manual demo-video recording remains)
-**Build approach:** vertical slice — one complete end-to-end loop before going wide.
+**Last updated:** 2026-05-30
+**Current focus:** Phase 2 — "Frozen Precision" frontend redesign + the backend features it implies (Milestones 9–14). MVP (1–8) shipped.
+**Build approach:** vertical slice — one complete end-to-end loop before going wide. Phase 2 ships **one milestone per PR**, pushed cleanly, implemented only with the maintainer's go-ahead.
 
 ---
 
@@ -21,6 +21,13 @@
 | 6 | Admin | Dashboard + moderation tooling | `[x]` |
 | 7 | Maintenance crons | Scheduled jobs + manual triggers | `[x]` |
 | 8 | Polish & ship | Design, docs, deploy-ready | `[x]` |
+| — | **Phase 2 — Frozen Precision redesign** | _frontend parity + the backend it implies_ | |
+| 9 | Design system & app shell | Light theme tokens + sidebar shell (FE) | `[ ]` |
+| 10 | Home & FAQ re-skin | Dashboard + FAQ to reference (FE) | `[ ]` |
+| 11 | Forum & thread re-skin | Filters/sort/pagination + Markdown (FE) | `[ ]` |
+| 12 | Admin dashboard re-skin | KPIs + needs-attention + audit feed (FE) | `[ ]` |
+| 13 | Engagement backend | Votes, bookmarks, answer counts (BE+FE) | `[ ]` |
+| 14 | Activity/comments/settings | Feed, replies, settings, avatars (BE+FE) | `[ ]` |
 
 ---
 
@@ -162,6 +169,77 @@ Goal: portfolio-grade, reproducible, demo-ready.
 
 ---
 
+# Phase 2 — "Frozen Precision" redesign (Milestones 9–14)
+
+> Added 2026-05-30 after studying the `FrontendReference/` "Frozen Precision" Stitch design kit. Full gap analysis lives in **`FRONTEND_GAP_REPORT.md`**. The reference is the source of truth for UI/UX.
+>
+> **Rules for this phase:** each milestone is **one clean PR** off `main`, pushed and opened for review; work begins only with the maintainer's explicit go-ahead, one milestone at a time. Frontend re-skin milestones (9–12) rely solely on **existing APIs**; backend milestones (13–14) add new endpoints and wire them into the already-re-skinned UI. Every PR must keep `lint` / `test` / `build` green. Commits: Conventional Commits w/ scope, no Co-Authored-By trailer.
+
+## Milestone 9 — Design system & app shell
+
+Goal: the light "Frozen Precision" foundation everything else builds on. **Frontend-only.**
+
+- [ ] Add **Inter** + port `DESIGN.md` tokens (color palette, 8px spacing rhythm, radii, type scale) into `styles.css`; switch dark → light theme
+- [ ] Button variants (primary solid / secondary outline / ghost), 1px-hairline cards, input focus glow, chips/tags per spec
+- [ ] **Left-sidebar app shell** (brand "Knowledge Hub" header; nav: Home / FAQ / Ask a Query / Forum / Leaderboard / Profile; footer: Settings / Support) wrapping all routes
+- [ ] Top bar: global search field, notification bell, user avatar (initials)
+- [ ] "+ New Entry" sidebar button → `/ask`; Settings / Support placeholder routes
+- [ ] Preserve existing features under the new shell (chatbot widget, ban banner); responsive (sidebar collapses on mobile)
+
+## Milestone 10 — Home dashboard & FAQ re-skin
+
+Goal: match the reference Home + FAQ screens. **Frontend-only (existing APIs).**
+
+- [ ] Home: three action cards — Ask the Assistant / Browse the FAQ / Ask the Community
+- [ ] Home: reputation ring (points) + level & "pts to next tier" **derived client-side** from badge thresholds; streak chip in the header
+- [ ] Home: recent-badges strip (from the current user's profile)
+- [ ] FAQ: category accordions with **article counts**; "PROMOTED FROM Q&A" tag (`source === 'qa'`); per-category "view all"; semantic-search indicator
+- [ ] FAQ: "Still can't find it? → **Open a Ticket**" CTA → `/ask`
+- [ ] _Recent Activity feed deferred to M14 (needs backend)_
+
+## Milestone 11 — Forum list & question thread re-skin
+
+Goal: match Community Discussions + Question Thread. **Frontend (existing APIs) + Markdown.**
+
+- [ ] Forum list: filter dropdowns (category / tag / status — already supported by `listQueries`), "Newest First" sort, **pagination control** (`total/page/limit` already returned)
+- [ ] Forum list: card layout with status badge, body excerpt, author initials + relative time
+- [ ] Question thread: re-skin to the reference; answer sort toggle ("Highest Voted" is already the default order)
+- [ ] **Rich-text answer composer toolbar** (bold / italic / code / link) + **Markdown & code-block rendering** for questions/answers (e.g. `react-markdown` + highlighter)
+- [ ] Preserve existing actions: like, mark solution, report, edit/delete, promote-to-FAQ
+- [ ] _Question votes / downvotes / answer-count badges / replies deferred to M13–14_
+
+## Milestone 12 — Admin dashboard re-skin
+
+Goal: match the "System Overview" screen. **Frontend (existing APIs + small derivations).**
+
+- [ ] KPI cards: Total Users, Open Questions, **Resolution Rate %** (resolved/total, derived), Mod Queue Size + load indicator, AI Status (from `/health`)
+- [ ] "Needs Attention" panel aggregating existing data: flagged content (reports), stale docs (`is_outdated`), pending approvals (`requires_approval`) — each linking to the relevant tab
+- [ ] Recent Audit Log feed on the overview (`listAudit`, latest N)
+- [ ] Keep the Moderation / Users / FAQ / Audit / Maintenance tabs
+
+## Milestone 13 — Engagement backend (votes, bookmarks, answer counts)
+
+Goal: the data the reference cards & threads imply. **Backend + UI wiring.**
+
+- [ ] **Answer counts** on `listQueries` (aggregation or denormalized counter) → show on forum cards
+- [ ] **Question voting** (decision: up/down on queries) — model/fields + endpoints + UI vote rail
+- [ ] **Answer downvote** — extend likes into signed votes (or keep upvote + add downvote) + UI
+- [ ] **Save / bookmark questions** — `Bookmark` model + create/delete/list endpoints + bookmark button on the thread
+- [ ] Tests for every new endpoint; lint / test / build green
+
+## Milestone 14 — Activity, comments, settings & profile backend
+
+Goal: remaining reference features that need backend. **Backend + UI wiring.**
+
+- [ ] **Recent-activity feed** endpoint (aggregate the user's queries/answers/saves) → Home feed
+- [ ] **Reply / comment on answers** — `Comment` model + endpoints (threading) + UI
+- [ ] **Settings page** — `GET`/`PATCH /api/users/me` for `notification_prefs` (+ basic profile)
+- [ ] **Avatars** — avatar field or initials/Gravatar across the UI; show author reputation on answer cards
+- [ ] Formalize **level/tier + pts-to-next** in the profile API (replacing M10's client derivation); add admin **resolution_rate** + AI uptime metric
+- [ ] Tests; lint / test / build green; refresh README screenshots
+
+---
+
 ## Backlog (post-MVP / nice-to-have)
 
 - [ ] Pluggable AI-provider interface (beyond Gemini)
@@ -176,7 +254,8 @@ Goal: portfolio-grade, reproducible, demo-ready.
 
 > Anything found mid-process that wasn't in the original plan: bugs, edge cases, refactors, decisions to revisit. Date each entry.
 
-- _none yet_
+- **2026-05-30** — QA & security audit completed (`AUDIT_REPORT.md`); fixes + regression suite on branch `fix/security-audit` (PR #1).
+- **2026-05-30** — Adopted the `FrontendReference/` "Frozen Precision" design kit as the UI source of truth. Gap analysis in `FRONTEND_GAP_REPORT.md` → Phase 2 (Milestones 9–14) added above.
 
 ---
 
