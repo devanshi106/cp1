@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KnowledgeBase - Home Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#cce5ff",
+                    "background": "#faf8ff",
+                    "secondary": "#006686",
+                    "on-secondary-fixed-variant": "#004d66",
+                    "on-secondary-container": "#005b78",
+                    "on-background": "#131b2e",
+                    "on-surface-variant": "#3f4850",
+                    "surface-tint": "#006398",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#dbe4ea",
+                    "surface-container-low": "#f2f3ff",
+                    "outline-variant": "#bfc7d2",
+                    "on-tertiary-container": "#fbfdff",
+                    "outline": "#707881",
+                    "on-surface": "#131b2e",
+                    "on-secondary-fixed": "#001e2b",
+                    "on-primary-fixed": "#001d31",
+                    "on-primary-container": "#fdfcff",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#7ed4fd",
+                    "on-tertiary-fixed-variant": "#3f484d",
+                    "inverse-primary": "#93ccff",
+                    "on-primary-fixed-variant": "#004b73",
+                    "surface-dim": "#d2d9f4",
+                    "inverse-surface": "#283044",
+                    "secondary-fixed-dim": "#7bd1fa",
+                    "surface-container-highest": "#dae2fd",
+                    "surface-container-high": "#e2e7ff",
+                    "secondary-fixed": "#c0e8ff",
+                    "on-tertiary-fixed": "#141d21",
+                    "surface-variant": "#dae2fd",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#007bb9",
+                    "tertiary-fixed-dim": "#bfc8ce",
+                    "primary-fixed-dim": "#93ccff",
+                    "tertiary-container": "#6d767b",
+                    "inverse-on-surface": "#eef0ff",
+                    "primary": "#006194",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eaedff",
+                    "surface": "#faf8ff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#545d62",
+                    "surface-bright": "#faf8ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "margin": "32px",
+                    "xxl": "96px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "unit": "4px",
+                    "xs": "4px",
+                    "xl": "48px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "display-lg-mobile": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        /* Custom overrides to ensure precise color matching with requested #E7E4DE for borders and #FBFAF8 for warm paper */
+        /* While config has background:#faf8ff, user specified #FBFAF8 for warm paper, we'll map background to it conceptually via utility classes if needed, but sticking to config colors where possible as per instructions, but wait, instructions say "use named colors from config". I will use 'surface-container-lowest' for pure white and 'background' (#faf8ff) for the paper. */
+        
+        body {
+            background-color: #faf8ff; /* Using config background which is close to requested warm paper */
+            color: #131b2e; /* on-background */
+        }
+        .hairline-border {
+            border: 1px solid #e2e8f0; /* Design system specified #E2E8F0 for hairlines in 'Layout & Spacing' */
+        }
+        .hairline-border-b {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .hairline-border-r {
+            border-right: 1px solid #e2e8f0;
+        }
+        
+        /* Glassmorphic effect */
+        .glass-overlay {
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 bottom-0 w-64 bg-surface dark:bg-surface border-r border-border border-r border-e2e8f0 flex flex-col h-full py-xl px-md z-50 hairline-border-r" style="border-right-color: #E2E8F0;">
+<div class="mb-margin">
+<h1 class="font-display-title text-headline-section text-primary font-headline-md text-headline-md text-primary mb-unit">Knowledge Hub</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Internal Repository</p>
+</div>
+<button class="w-full bg-primary text-on-primary py-sm px-md rounded-DEFAULT font-label-md text-label-md mb-margin hover:opacity-90 transition-opacity flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
+            New Entry
+        </button>
+<div class="flex-grow flex flex-col gap-unit">
+<a class="flex items-center gap-sm px-sm py-sm text-primary bg-pine-wash border-r-2 border-primary font-label-bold bg-surface-container rounded-DEFAULT scale(1.02) transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant font-label-bold hover:bg-pine-wash hover:text-primary transition-all duration-300 rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">quiz</span>
+<span class="font-label-md text-label-md">FAQ</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant font-label-bold hover:bg-pine-wash hover:text-primary transition-all duration-300 rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">contact_support</span>
+<span class="font-label-md text-label-md">Ask a Query</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant font-label-bold hover:bg-pine-wash hover:text-primary transition-all duration-300 rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">forum</span>
+<span class="font-label-md text-label-md">Forum</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant font-label-bold hover:bg-pine-wash hover:text-primary transition-all duration-300 rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">leaderboard</span>
+<span class="font-label-md text-label-md">Leaderboard</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant font-label-bold hover:bg-pine-wash hover:text-primary transition-all duration-300 rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-unit pt-margin hairline-border-b" style="border-top: 1px solid #E2E8F0; border-bottom: none;">
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant font-label-bold hover:bg-pine-wash hover:text-primary transition-all duration-300 rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant font-label-bold hover:bg-pine-wash hover:text-primary transition-all duration-300 rounded-DEFAULT hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<div class="flex-grow ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-background dark:bg-background h-16 border-b border-border hairline-border-b flex items-center justify-between px-lg w-full max-w-full z-40 sticky top-0 glass-overlay" style="border-bottom-color: #E2E8F0;">
+<div class="flex items-center gap-sm w-1/3">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-sm top-1/2 transform -translate-y-1/2 text-outline" style="font-size: 20px;">search</span>
+<input class="w-full bg-surface-container-lowest hairline-border rounded-DEFAULT py-xs pl-margin pr-sm font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-secondary-container transition-all" placeholder="Search KnowledgeBase..." type="text"/>
+</div>
+</div>
+<div class="flex items-center justify-center w-1/3">
+<span class="font-display-title text-display-title text-primary font-headline-md text-headline-md font-bold tracking-tight">KnowledgeBase</span>
+</div>
+<div class="flex items-center justify-end gap-md w-1/3">
+<button class="text-on-surface-variant hover:bg-pine-wash transition-all duration-300 p-xs rounded-full hover:bg-surface-container-low scale(1.02)">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden hairline-border">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a woman with dark hair pulled back, smiling softly in a brightly lit modern office setting. The lighting is high-key and airy, fitting a minimalist light-mode aesthetic. The background is slightly blurred, emphasizing clarity and focus on the subject." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDknxJMWsNUrMhjI4pw3qzcxKqWI2w7seURQ_T7vNtqtD5AbRbUS4KgGB9ZgJdxvhcNVUgkGLUCrOejvl2hMsdn0SezKWaGZcwnBnWpHbWrnLHm7ZAE0Ow6vKx5J27s1FRoA04mHc_GMePGVlFIo95rQwk3eOmH7ghe7SnK4xnrxCKyoUc5wGTD3h4smDIu4o3o_ZJbmi_sH200cv2V5zAa1oLGQM4LZIwUuVAZDlO_aA-kTEwOa29cv7DAahWEk-0MP25vka98n87H"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<main class="flex-grow p-xl max-w-7xl mx-auto w-full grid grid-cols-12 gap-gutter">
+<!-- Greeting Section (Spans full width) -->
+<div class="col-span-12 mb-margin flex items-end justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-unit text-[#131b2e]">Good morning, Maya</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Here is your daily knowledge snapshot.</p>
+</div>
+<div class="flex items-center gap-sm bg-surface-container-low px-sm py-xs rounded-full hairline-border">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-label-md text-label-md text-primary">12-day streak</span>
+</div>
+</div>
+<!-- Main Left Column (Pillars & Activity) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-margin">
+<!-- Pillar Cards (Bento style row) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Card 1 -->
+<a class="group bg-surface-container-lowest hairline-border rounded-lg p-lg flex flex-col justify-between aspect-square hover:border-primary transition-colors" href="#">
+<div class="w-12 h-12 rounded-full bg-[#F0F9FF] flex items-center justify-center mb-md group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1; font-size: 24px;">smart_toy</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-unit">Ask the Assistant</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Get instant AI-driven answers.</p>
+</div>
+</a>
+<!-- Card 2 -->
+<a class="group bg-surface-container-lowest hairline-border rounded-lg p-lg flex flex-col justify-between aspect-square hover:border-primary transition-colors" href="#">
+<div class="w-12 h-12 rounded-full bg-[#F0F9FF] flex items-center justify-center mb-md group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1; font-size: 24px;">library_books</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-unit">Browse the FAQ</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Curated solutions and guides.</p>
+</div>
+</a>
+<!-- Card 3 -->
+<a class="group bg-surface-container-lowest hairline-border rounded-lg p-lg flex flex-col justify-between aspect-square hover:border-primary transition-colors" href="#">
+<div class="w-12 h-12 rounded-full bg-[#F0F9FF] flex items-center justify-center mb-md group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1; font-size: 24px;">groups</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-background text-lg leading-tight mb-unit">Ask the Community</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tap into collective wisdom.</p>
+</div>
+</a>
+</div>
+<!-- Recent Activity List -->
+<div class="bg-surface-container-lowest hairline-border rounded-lg p-lg">
+<h3 class="font-headline-md text-headline-md text-on-background text-xl mb-md">Recent Activity</h3>
+<div class="flex flex-col">
+<!-- Row 1 -->
+<div class="flex items-center justify-between py-md hairline-border-b">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline">description</span>
+<div>
+<p class="font-body-md text-body-md text-on-background font-medium">Updated Server Migration Guide</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">2 hours ago in Infrastructure</p>
+</div>
+</div>
+<span class="bg-[#F0F9FF] text-primary px-sm py-xs rounded-DEFAULT font-label-md text-label-md">Published</span>
+</div>
+<!-- Row 2 -->
+<div class="flex items-center justify-between py-md hairline-border-b">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline">forum</span>
+<div>
+<p class="font-body-md text-body-md text-on-background font-medium">Replied to "API Authentication Error"</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Yesterday in Engineering</p>
+</div>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-DEFAULT font-label-md text-label-md">Comment</span>
+</div>
+<!-- Row 3 -->
+<div class="flex items-center justify-between py-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline">bookmark</span>
+<div>
+<p class="font-body-md text-body-md text-on-background font-medium">Saved "Q3 Product Roadmap"</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Yesterday in Product</p>
+</div>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-DEFAULT font-label-md text-label-md">Saved</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar (Reputation) -->
+<div class="col-span-12 lg:col-span-4">
+<div class="bg-surface-container-lowest hairline-border rounded-lg p-lg sticky top-24">
+<h3 class="font-headline-md text-headline-md text-on-background text-xl mb-lg">Your Reputation</h3>
+<div class="flex items-center justify-center mb-margin">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<!-- Circular progress representation -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="#f2f3ff" stroke-width="4"></circle>
+<circle class="transition-all duration-1000 ease-out" cx="50" cy="50" fill="none" r="45" stroke="#7DD3FC" stroke-dasharray="283" stroke-dashoffset="70" stroke-width="4"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-display-lg text-display-lg text-primary text-3xl font-bold">2,450</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Points</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between mb-sm">
+<span class="font-body-md text-body-md text-on-background font-medium flex items-center gap-xs">
+<span class="material-symbols-outlined text-[#7DD3FC]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                            Senior Contributor
+                        </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Level 12</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mb-xs">
+<div class="bg-secondary-container h-full rounded-full w-3/4"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-right mb-lg">550 pts to Master</p>
+<div class="pt-md hairline-border-b" style="border-top: 1px solid #E2E8F0; border-bottom: none;">
+<h4 class="font-label-md text-label-md text-on-surface-variant mb-sm uppercase tracking-widest">Recent Badges</h4>
+<div class="flex gap-sm">
+<div class="w-10 h-10 rounded-full bg-[#F0F9FF] flex items-center justify-center tooltip-trigger relative cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1; font-size: 20px;">task_alt</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-[#F0F9FF] flex items-center justify-center tooltip-trigger relative cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1; font-size: 20px;">edit_document</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center border border-dashed border-outline-variant opacity-50">
+<span class="material-symbols-outlined text-outline-variant" style="font-size: 20px;">lock</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

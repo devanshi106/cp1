@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Question Thread - KnowledgeCenter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#141d21",
+                        "surface-container-high": "#e2e7ff",
+                        "secondary-fixed": "#c0e8ff",
+                        "surface-variant": "#dae2fd",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#7bd1fa",
+                        "inverse-surface": "#283044",
+                        "surface-container-highest": "#dae2fd",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container": "#eaedff",
+                        "surface": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#545d62",
+                        "surface-bright": "#faf8ff",
+                        "tertiary-fixed-dim": "#bfc8ce",
+                        "primary-container": "#007bb9",
+                        "primary-fixed-dim": "#93ccff",
+                        "tertiary-container": "#6d767b",
+                        "inverse-on-surface": "#eef0ff",
+                        "primary": "#006194",
+                        "surface-tint": "#006398",
+                        "on-surface-variant": "#3f4850",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#cce5ff",
+                        "background": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#005b78",
+                        "on-secondary-fixed-variant": "#004d66",
+                        "secondary": "#006686",
+                        "on-background": "#131b2e",
+                        "secondary-container": "#7ed4fd",
+                        "on-tertiary-fixed-variant": "#3f484d",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#004b73",
+                        "inverse-primary": "#93ccff",
+                        "surface-dim": "#d2d9f4",
+                        "outline-variant": "#bfc7d2",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#fbfdff",
+                        "tertiary-fixed": "#dbe4ea",
+                        "on-surface": "#131b2e",
+                        "on-primary-fixed": "#001d31",
+                        "on-secondary-fixed": "#001e2b",
+                        "outline": "#707881",
+                        "on-primary-container": "#fdfcff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "32px",
+                        "sm": "8px",
+                        "xxl": "96px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "unit": "4px",
+                        "xl": "48px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .hairline-border { border: 1px solid #E2E8F0; }
+        .glass-overlay { backdrop-filter: blur(12px); background-color: rgba(255, 255, 255, 0.8); }
+        .code-block { font-family: 'JetBrains Mono', monospace; background-color: theme('colors.surface-container-lowest'); border: 1px solid #E2E8F0; border-radius: theme('borderRadius.lg'); padding: theme('spacing.md'); overflow-x: auto; font-size: 14px; line-height: 1.5; color: theme('colors.on-surface'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="min-h-screen font-body-md text-body-md flex flex-col md:flex-row">
+<!-- Left Nav - SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 bg-surface border-r border-outline-variant p-md space-y-sm z-30">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">KnowledgeHub</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-unit">Expert Network</p>
+</div>
+<a class="flex items-center space-x-md px-md py-sm rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-xl bg-secondary-container text-on-secondary-container font-bold transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined filled">forum</span>
+<span>Forum</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span>FAQ</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span>Ask a Query</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span>Leaderboard</span>
+</a>
+<div class="mt-auto pt-lg">
+<a class="flex items-center space-x-md px-md py-sm rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Profile</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 w-full md:pl-64 flex flex-col min-h-screen">
+<!-- TopAppBar (Web) -->
+<header class="hidden md:flex justify-between items-center px-lg py-sm w-full sticky top-0 z-40 bg-surface/90 glass-overlay border-b border-outline-variant flat no shadows">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full focus-within:ring-2 focus-within:ring-primary/20 rounded-full">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest hairline-border rounded-full py-2 pl-xl pr-md text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-0 placeholder:text-outline" placeholder="Search discussions..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-md ml-lg">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- TopAppBar (Mobile) -->
+<header class="flex md:hidden justify-between items-center px-md py-sm w-full sticky top-0 z-40 bg-surface border-b border-outline-variant">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">KnowledgeCenter</h1>
+<div class="flex space-x-sm">
+<button class="p-2 text-on-surface-variant"><span class="material-symbols-outlined">search</span></button>
+<button class="p-2 text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button>
+</div>
+</header>
+<!-- Thread Canvas (~720px centered) -->
+<div class="flex-1 w-full max-w-[768px] mx-auto px-md md:px-0 py-lg md:py-xl">
+<!-- Breadcrumb & Back -->
+<div class="mb-lg flex items-center space-x-sm text-body-sm font-body-sm text-outline">
+<a class="hover:text-primary flex items-center" href="#"><span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span> Forums</a>
+<span>/</span>
+<a class="hover:text-primary" href="#">React</a>
+<span>/</span>
+<span class="text-on-surface-variant truncate max-w-[200px]">State management</span>
+</div>
+<!-- The Question -->
+<article class="bg-surface-container-lowest hairline-border p-lg md:p-xl mb-xl">
+<header class="mb-md">
+<div class="flex flex-wrap gap-2 mb-sm">
+<span class="bg-[#F0F9FF] text-primary px-3 py-1 rounded-full font-label-md text-label-md">React</span>
+<span class="bg-[#F0F9FF] text-primary px-3 py-1 rounded-full font-label-md text-label-md">Performance</span>
+</div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-background mb-md">Why is my React component re-rendering infinitely when updating state inside useEffect?</h1>
+<div class="flex items-center justify-between border-b border-outline-variant pb-md">
+<div class="flex items-center space-x-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A close-up, high-key portrait of a professional individual looking slightly off-camera. The lighting is bright and even, casting minimal shadows to maintain a clean, airy aesthetic. The background is a soft, out-of-focus white studio space, complementing the light mode UI. The mood is approachable yet focused, fitting a professional network." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdtmHYoWRsZQ5_-otircrda71h0T2EFtmEEmsEQ-tNG7rYjlS-3F_ejwKsqflWXHerZW95GI7BFZPF8-eEvnR_pMBUApvdEAXd-VdHqR0J3jGpS8eIQZNnuXgG9KG5VPWS1aTNCyrzw_He12vr2fA2c4gJ_c0kIZiXlDwz6FDD_TEOdZbRyvwowE5hDSWBpL84v4O1bqhTbwHSTs80AjwkBQQCc3FbV-Q3JkOcAw5dk-N31u3j64Db3cjhzZdR-y1uy2IszgQOjQfs"/>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Alex Chen</div>
+<div class="font-body-sm text-body-sm text-outline">Asked 2 days ago • 1.2k views</div>
+</div>
+</div>
+<button class="bg-transparent border border-[#E2E8F0] text-primary hover:bg-surface-container-low px-4 py-2 rounded-lg font-label-md text-label-md transition-colors flex items-center space-x-2">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+<span class="hidden sm:inline">Save</span>
+</button>
+</div>
+</header>
+<div class="font-body-lg text-body-lg text-on-surface-variant space-y-md">
+<p>I'm trying to fetch some data based on a prop change, but I seem to have created an infinite loop. The browser tab freezes completely when I navigate to this view.</p>
+<p>Here is the simplified version of my component:</p>
+<div class="code-block">
+<pre><code>import React, { useState, useEffect } from 'react';
+
+function DataDisplay({ userId }) {
+  const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ active: true });
+
+  useEffect(() =&gt; {
+    fetchData(userId, filters).then(result =&gt; {
+      setData(result);
+      // I think this next line might be the issue?
+      setFilters({ ...filters, lastFetched: Date.now() }); 
+    });
+  }, [userId, filters]); // Added filters to dependencies because ESLint complained
+
+  return (
+    &lt;div&gt;{/* rendering logic */}&lt;/div&gt;
+  );
+}</code></pre>
+</div>
+<p>I understand that updating `filters` causes a re-render, which triggers `useEffect` again because `filters` is in the dependency array. But if I remove `filters` from the array, ESLint gives me a `react-hooks/exhaustive-deps` warning.</p>
+<p>What is the elegant, "React way" to handle this without disabling the linter rule?</p>
+</div>
+<footer class="mt-lg pt-md border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center space-x-1">
+<button class="p-2 hover:bg-surface-container-low rounded text-on-surface-variant flex items-center"><span class="material-symbols-outlined">thumb_up</span><span class="ml-1 font-label-md">42</span></button>
+<button class="p-2 hover:bg-surface-container-low rounded text-on-surface-variant flex items-center"><span class="material-symbols-outlined">thumb_down</span></button>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center">
+<span class="material-symbols-outlined text-[18px] mr-1">reply</span> Reply
+                    </button>
+</footer>
+</article>
+<!-- Answers Header -->
+<div class="flex items-center justify-between mb-md px-2">
+<h2 class="font-headline-md text-headline-md font-semibold text-on-background">3 Answers</h2>
+<div class="flex items-center space-x-2 text-body-sm font-body-sm text-on-surface-variant">
+<span class="hidden sm:inline">Sort by:</span>
+<select class="bg-surface-container-lowest hairline-border rounded py-1 px-2 text-on-surface focus:outline-none focus:border-primary">
+<option>Highest Voted</option>
+<option>Newest</option>
+</select>
+</div>
+</div>
+<!-- Accepted Answer (Highlighted) -->
+<article class="bg-[#F0F9FF] border border-[#7DD3FC] p-lg md:p-xl mb-md relative overflow-hidden">
+<!-- Highlight Indicator -->
+<div class="absolute top-0 right-0 bg-[#7DD3FC] text-[#004b73] px-4 py-1 rounded-bl-lg font-label-md text-label-md flex items-center space-x-1 shadow-sm">
+<span class="material-symbols-outlined filled text-[16px]">check_circle</span>
+<span>Accepted Solution</span>
+</div>
+<div class="flex items-center space-x-md mb-md pt-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A bright, airy headshot of a software engineer smiling confidently. The image has high clarity and contrast, perfectly suited for a light-themed interface. The background is a clean, minimal office environment with blurred white walls and subtle grey elements. The overall aesthetic is professional, sharp, and highly refined." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRwtoiZVqbBjNqlEQTRhcdquQhhWXyHIgHfDummrLxcb3xmGe1Hb6cgynu7sbDMdCTDGXaRT7et7ecRyeSWbqkSCWXJk18n_t4oAOPy-xzVxi4ZThWewu06qtPsbNt0p5Lj7JPAJr5fUApSCAh17IgJaxwJnESfscLN3U4HB4DP0cbibHcA805cWG8PT_z50b-G0-IyEaVfW2qLfBuxQ9JmprawWDW5DdkmXzMDFUTO1WjC-5oxMtfxDqvuv9F-FCMabmBjbSiS6V-"/>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface flex items-center">Sarah Jenkins <span class="ml-2 px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full text-[10px]">Staff Engineer</span></div>
+<div class="font-body-sm text-body-sm text-outline">Answered 2 days ago</div>
+</div>
+</div>
+<div class="font-body-lg text-body-lg text-on-surface-variant space-y-md">
+<p>The core issue here is indeed the cyclical dependency. You are fetching data, updating <code>filters</code>, which triggers the effect again because <code>filters</code> is a new object reference (or its values changed), leading to another fetch.</p>
+<p>The fundamental rule is: <strong>If you only want to fetch when <code>userId</code> changes, do not update state that is in the dependency array from within that same effect.</strong></p>
+<p>You have a couple of architectural choices to fix this cleanly:</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-lg mb-sm">1. Separate the concerns (Recommended)</h3>
+<p>Ask yourself: why does <code>lastFetched</code> need to be part of the <code>filters</code> state? Usually, filters dictate <em>what</em> to fetch, not metadata about <em>when</em> it was fetched. Separate them:</p>
+<div class="code-block bg-white/60">
+<pre><code>function DataDisplay({ userId }) {
+  const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ active: true });
+  const [lastFetched, setLastFetched] = useState(null); // Separate state
+
+  useEffect(() =&gt; {
+    let isMounted = true; // Cleanup to prevent state updates if unmounted
+
+    fetchData(userId, filters).then(result =&gt; {
+      if (isMounted) {
+        setData(result);
+        setLastFetched(Date.now()); // Update metadata separately
+      }
+    });
+
+    return () =&gt; { isMounted = false; };
+  }, [userId, filters]); // Effect runs when user OR filters change
+
+  // ...
+}</code></pre>
+</div>
+<p>Now, updating <code>lastFetched</code> doesn't trigger the effect because it's not in the dependency array (and shouldn't be).</p>
+</div>
+<footer class="mt-lg pt-md border-t border-[#7DD3FC]/30 flex items-center justify-between">
+<div class="flex items-center space-x-1">
+<button class="p-2 bg-surface-container-lowest rounded text-primary flex items-center hairline-border shadow-sm"><span class="material-symbols-outlined filled">thumb_up</span><span class="ml-1 font-label-md">156</span></button>
+<button class="p-2 hover:bg-white/50 rounded text-on-surface-variant flex items-center transition-colors"><span class="material-symbols-outlined">thumb_down</span></button>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center">
+<span class="material-symbols-outlined text-[18px] mr-1">reply</span> Reply
+                    </button>
+</footer>
+</article>
+<!-- Regular Answer -->
+<article class="bg-surface-container-lowest hairline-border p-lg md:p-xl mb-md">
+<div class="flex items-center space-x-md mb-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden flex items-center justify-center text-primary font-bold">
+                        MR
+                    </div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Mark Richards</div>
+<div class="font-body-sm text-body-sm text-outline">Answered yesterday</div>
+</div>
+</div>
+<div class="font-body-lg text-body-lg text-on-surface-variant space-y-md">
+<p>If you absolutely must keep <code>lastFetched</code> inside the <code>filters</code> object for some reason (e.g., passing a single object down to deeply nested children), you can use a <code>ref</code> to store mutable data that doesn't trigger a re-render.</p>
+<div class="code-block">
+<pre><code>const lastFetchedRef = useRef(null);
+
+useEffect(() =&gt; {
+  fetchData(userId, filters).then(result =&gt; {
+    setData(result);
+    lastFetchedRef.current = Date.now(); // Does not cause re-render
+  });
+}, [userId, filters]);
+</code></pre>
+</div>
+<p>However, Sarah's answer above separating the state is generally the cleaner React paradigm.</p>
+</div>
+<footer class="mt-lg pt-md border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center space-x-1">
+<button class="p-2 hover:bg-surface-container-low rounded text-on-surface-variant flex items-center transition-colors"><span class="material-symbols-outlined">thumb_up</span><span class="ml-1 font-label-md">12</span></button>
+<button class="p-2 hover:bg-surface-container-low rounded text-on-surface-variant flex items-center transition-colors"><span class="material-symbols-outlined">thumb_down</span></button>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center">
+<span class="material-symbols-outlined text-[18px] mr-1">reply</span> Reply
+                    </button>
+</footer>
+</article>
+<!-- Your Answer Input Area -->
+<div class="mt-xl pt-lg border-t border-outline-variant">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-background mb-md">Your Answer</h3>
+<div class="bg-surface-container-lowest hairline-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+<!-- Fake Toolbar -->
+<div class="bg-surface-container-low border-b border-outline-variant p-2 flex space-x-1">
+<button class="p-1 text-on-surface-variant hover:bg-surface-variant rounded"><span class="material-symbols-outlined text-[20px]">format_bold</span></button>
+<button class="p-1 text-on-surface-variant hover:bg-surface-variant rounded"><span class="material-symbols-outlined text-[20px]">format_italic</span></button>
+<button class="p-1 text-on-surface-variant hover:bg-surface-variant rounded"><span class="material-symbols-outlined text-[20px]">code</span></button>
+<button class="p-1 text-on-surface-variant hover:bg-surface-variant rounded"><span class="material-symbols-outlined text-[20px]">link</span></button>
+</div>
+<textarea class="w-full h-48 p-md bg-transparent border-none resize-y focus:ring-0 text-body-md font-body-md text-on-surface placeholder:text-outline" placeholder="Write your solution here... Markdown is supported."></textarea>
+</div>
+<div class="mt-md flex justify-end">
+<button class="bg-primary text-on-primary px-xl py-3 rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-colors shadow-sm">Post Answer</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

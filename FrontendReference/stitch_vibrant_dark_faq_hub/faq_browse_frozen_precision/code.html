@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KnowledgeBase - FAQ Browse</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration (Frozen Precision Theme) -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#cce5ff",
+                    "background": "#faf8ff",
+                    "secondary": "#006686",
+                    "on-secondary-fixed-variant": "#004d66",
+                    "on-secondary-container": "#005b78",
+                    "on-background": "#131b2e",
+                    "on-surface-variant": "#3f4850",
+                    "surface-tint": "#006398",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#dbe4ea",
+                    "surface-container-low": "#f2f3ff",
+                    "outline-variant": "#bfc7d2",
+                    "on-tertiary-container": "#fbfdff",
+                    "outline": "#707881",
+                    "on-surface": "#131b2e",
+                    "on-secondary-fixed": "#001e2b",
+                    "on-primary-fixed": "#001d31",
+                    "on-primary-container": "#fdfcff",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#7ed4fd",
+                    "on-tertiary-fixed-variant": "#3f484d",
+                    "inverse-primary": "#93ccff",
+                    "on-primary-fixed-variant": "#004b73",
+                    "surface-dim": "#d2d9f4",
+                    "inverse-surface": "#283044",
+                    "secondary-fixed-dim": "#7bd1fa",
+                    "surface-container-highest": "#dae2fd",
+                    "surface-container-high": "#e2e7ff",
+                    "secondary-fixed": "#c0e8ff",
+                    "on-tertiary-fixed": "#141d21",
+                    "surface-variant": "#dae2fd",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#007bb9",
+                    "tertiary-fixed-dim": "#bfc8ce",
+                    "primary-fixed-dim": "#93ccff",
+                    "tertiary-container": "#6d767b",
+                    "inverse-on-surface": "#eef0ff",
+                    "primary": "#006194",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eaedff",
+                    "surface": "#faf8ff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#545d62",
+                    "surface-bright": "#faf8ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "margin": "32px",
+                    "xxl": "96px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "unit": "4px",
+                    "xs": "4px",
+                    "xl": "48px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.surface');
+            color: theme('colors.on-surface');
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom scrollbar for webkit to match frozen precision aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant'); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline'); 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex text-on-surface bg-surface font-body-md text-body-md">
+<!-- JSON Component: SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-xl px-md fixed left-0 top-0 bottom-0 w-64 bg-surface border-r border-outline-variant z-20">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Knowledge Hub</h1>
+<p class="font-body-sm text-body-sm text-outline mt-unit">Internal Repository</p>
+</div>
+<button class="mb-xl mx-sm py-sm px-md bg-primary text-on-primary rounded-DEFAULT flex items-center justify-center gap-sm hover:bg-surface-tint transition-all duration-300 font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            New Entry
+        </button>
+<div class="flex-1 flex flex-col gap-sm overflow-y-auto">
+<!-- Inactive Tab: Home -->
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">home</span>
+                Home
+            </a>
+<!-- Active Tab: FAQ (Matches Page Intent) -->
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-primary bg-surface-container border-r-2 border-primary font-label-md text-label-md transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">quiz</span>
+                FAQ
+            </a>
+<!-- Inactive Tab: Ask a Query -->
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">contact_support</span>
+                Ask a Query
+            </a>
+<!-- Inactive Tab: Forum -->
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">forum</span>
+                Forum
+            </a>
+<!-- Inactive Tab: Leaderboard -->
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">leaderboard</span>
+                Leaderboard
+            </a>
+<!-- Inactive Tab: Profile -->
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">person</span>
+                Profile
+            </a>
+</div>
+<div class="mt-auto pt-lg border-t border-outline-variant flex flex-col gap-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                Support
+            </a>
+</div>
+</nav>
+<!-- Main Content Wrapper (Accounts for SideNav width) -->
+<div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+<!-- JSON Component: TopNavBar -->
+<header class="flex items-center justify-between px-lg w-full h-16 fixed top-0 right-0 left-0 md:left-64 bg-surface border-b border-outline-variant z-10">
+<div class="flex items-center gap-md w-full max-w-xl">
+<!-- Mobile Menu Trigger (Visible only on small screens) -->
+<button class="md:hidden p-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md text-primary hidden md:block">KnowledgeBase</span>
+</div>
+<div class="flex items-center gap-lg">
+<button class="p-xs text-on-surface-variant hover:text-primary transition-colors relative group">
+<span class="material-symbols-outlined group-hover:scale-[1.02] transition-transform duration-300">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a person against a clean white background, high-key lighting, maintaining a bright and minimalist aesthetic suitable for a modern corporate application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhiY-9xihZhexvOqBT06Yg7j-KzahhCqbRWFMFg8QVEMsc8414qH0LRxvnxweol4GjwoGwJ72shBT3_MuyM69BiXLdfgALhpasRuO0aZt9GBA-AUQtJ0k3_b47OV9k53OokeLsowhbAWOaAypCRiKEMDuBNRaaQwzvUNGjS9EQOcvgzgPP0tXbEXF9dSLcZhsHT-djXYHRhgmrP9hb3ZdpspAXFARCxX_DJKu3l_bm8Fgjqnqgh8GmNrWA-xdMAkQIlxMyfq9UNHTl"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 mt-16 p-margin md:p-xl max-w-5xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-xl">
+<h2 class="font-display-lg text-display-lg text-on-surface mb-sm tracking-tight">Browse FAQs</h2>
+<p class="font-body-lg text-body-lg text-outline max-w-2xl">Find definitive answers engineered for clarity. Explore categories below or use intelligent search to pinpoint specific guidance.</p>
+</div>
+<!-- Search Area -->
+<div class="mb-xl relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors duration-300">search</span>
+</div>
+<input class="w-full pl-xl pr-md py-lg bg-surface-container-lowest border border-outline-variant rounded-DEFAULT font-body-lg text-body-lg text-on-surface placeholder-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300 shadow-sm" placeholder="Search by keyword, concept, or natural language query..." type="text"/>
+<div class="absolute right-md top-1/2 -translate-y-1/2 flex gap-sm">
+<span class="bg-surface-container px-sm py-xs rounded-DEFAULT font-label-md text-label-md text-outline border border-outline-variant">⌘K</span>
+</div>
+<p class="mt-sm font-body-sm text-body-sm text-outline flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                    Semantic search is active. Try asking full questions like "How do I export data?"
+                </p>
+</div>
+<!-- Category Accordion (Hairline Rows) -->
+<div class="border-t border-outline-variant">
+<!-- Category 1 (Closed) -->
+<div class="group border-b border-outline-variant">
+<button class="w-full py-lg px-xs flex items-center justify-between hover:bg-surface-container-low transition-colors duration-300 text-left">
+<span class="font-headline-md text-headline-md text-on-surface">System Onboarding &amp; Access</span>
+<div class="flex items-center gap-md">
+<span class="font-body-sm text-body-sm text-outline px-sm py-xs bg-surface-container rounded-DEFAULT">12 Articles</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">add</span>
+</div>
+</button>
+</div>
+<!-- Category 2 (Expanded) -->
+<div class="border-b border-outline-variant bg-surface-bright">
+<button class="w-full py-lg px-xs flex items-center justify-between text-left">
+<span class="font-headline-md text-headline-md text-primary">Data Integration &amp; APIs</span>
+<div class="flex items-center gap-md">
+<span class="font-body-sm text-body-sm text-primary px-sm py-xs bg-surface-container-high rounded-DEFAULT border border-outline-variant">24 Articles</span>
+<span class="material-symbols-outlined text-primary">remove</span>
+</div>
+</button>
+<div class="pb-lg px-md ml-sm border-l border-outline-variant">
+<ul class="flex flex-col gap-unit">
+<li>
+<a class="group/link flex flex-col sm:flex-row sm:items-center justify-between py-sm px-sm rounded-DEFAULT hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover/link:text-primary transition-colors">Configuring RESTful Webhooks for Real-time Sync</span>
+</a>
+</li>
+<li>
+<a class="group/link flex flex-col sm:flex-row sm:items-center justify-between py-sm px-sm rounded-DEFAULT hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover/link:text-primary transition-colors">Understanding OAuth 2.0 Scopes in the v3 Endpoint</span>
+<span class="mt-xs sm:mt-0 inline-block bg-primary-fixed text-on-primary-fixed-variant font-label-md text-label-md px-sm py-xs rounded-DEFAULT uppercase tracking-wider ml-auto sm:ml-md shrink-0">Promoted from Q&amp;A</span>
+</a>
+</li>
+<li>
+<a class="group/link flex flex-col sm:flex-row sm:items-center justify-between py-sm px-sm rounded-DEFAULT hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover/link:text-primary transition-colors">Rate Limiting Policies and Handling 429 Responses</span>
+</a>
+</li>
+<li>
+<a class="group/link flex flex-col sm:flex-row sm:items-center justify-between py-sm px-sm rounded-DEFAULT hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover/link:text-primary transition-colors">Migrating Legacy SOAP Services to GraphQL</span>
+<span class="mt-xs sm:mt-0 inline-block bg-primary-fixed text-on-primary-fixed-variant font-label-md text-label-md px-sm py-xs rounded-DEFAULT uppercase tracking-wider ml-auto sm:ml-md shrink-0">Promoted from Q&amp;A</span>
+</a>
+</li>
+</ul>
+<button class="mt-md ml-sm text-primary font-label-md text-label-md hover:underline flex items-center gap-xs">
+                            View all 24 articles <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Category 3 (Closed) -->
+<div class="group border-b border-outline-variant">
+<button class="w-full py-lg px-xs flex items-center justify-between hover:bg-surface-container-low transition-colors duration-300 text-left">
+<span class="font-headline-md text-headline-md text-on-surface">Security &amp; Compliance Configurations</span>
+<div class="flex items-center gap-md">
+<span class="font-body-sm text-body-sm text-outline px-sm py-xs bg-surface-container rounded-DEFAULT">8 Articles</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">add</span>
+</div>
+</button>
+</div>
+<!-- Category 4 (Closed) -->
+<div class="group border-b border-outline-variant">
+<button class="w-full py-lg px-xs flex items-center justify-between hover:bg-surface-container-low transition-colors duration-300 text-left">
+<span class="font-headline-md text-headline-md text-on-surface">Billing, Invoicing &amp; Subscription Tiers</span>
+<div class="flex items-center gap-md">
+<span class="font-body-sm text-body-sm text-outline px-sm py-xs bg-surface-container rounded-DEFAULT">15 Articles</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">add</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Support Footer Canvas Element -->
+<div class="mt-xl p-lg rounded-DEFAULT border border-outline-variant bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-md shadow-sm">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Still can't find the answer?</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Our engineering support team is available for deep-dive technical assistance.</p>
+</div>
+<button class="whitespace-nowrap px-lg py-sm bg-surface-container-highest border border-outline-variant text-primary font-label-md text-label-md rounded-DEFAULT hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors duration-300 flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+                    Open a Ticket
+                </button>
+</div>
+</main>
+</div>
+</body></html>

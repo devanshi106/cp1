@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Forum - KnowledgeHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#141d21",
+                    "surface-container-high": "#e2e7ff",
+                    "secondary-fixed": "#c0e8ff",
+                    "surface-variant": "#dae2fd",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#7bd1fa",
+                    "inverse-surface": "#283044",
+                    "surface-container-highest": "#dae2fd",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eaedff",
+                    "surface": "#faf8ff",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#545d62",
+                    "surface-bright": "#faf8ff",
+                    "tertiary-fixed-dim": "#bfc8ce",
+                    "primary-container": "#007bb9",
+                    "primary-fixed-dim": "#93ccff",
+                    "tertiary-container": "#6d767b",
+                    "inverse-on-surface": "#eef0ff",
+                    "primary": "#006194",
+                    "surface-tint": "#006398",
+                    "on-surface-variant": "#3f4850",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#cce5ff",
+                    "background": "#faf8ff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#005b78",
+                    "on-secondary-fixed-variant": "#004d66",
+                    "secondary": "#006686",
+                    "on-background": "#131b2e",
+                    "secondary-container": "#7ed4fd",
+                    "on-tertiary-fixed-variant": "#3f484d",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#004b73",
+                    "inverse-primary": "#93ccff",
+                    "surface-dim": "#d2d9f4",
+                    "outline-variant": "#bfc7d2",
+                    "surface-container-low": "#f2f3ff",
+                    "on-tertiary-container": "#fbfdff",
+                    "tertiary-fixed": "#dbe4ea",
+                    "on-surface": "#131b2e",
+                    "on-primary-fixed": "#001d31",
+                    "on-secondary-fixed": "#001e2b",
+                    "outline": "#707881",
+                    "on-primary-container": "#fdfcff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin": "32px",
+                    "sm": "8px",
+                    "xxl": "96px",
+                    "gutter": "24px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "xl": "48px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf8ff; color: #131b2e; }
+        .hairline-border { border: 1px solid #E2E8F0; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid #E2E8F0; }
+        .accordion-content { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; max-height: 0; opacity: 0; overflow: hidden; }
+        .accordion-content.open { max-height: 500px; opacity: 1; }
+        .accordion-icon { transition: transform 0.3s ease; }
+        .accordion-header.open .accordion-icon { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-surface flex h-screen overflow-hidden">
+<!-- SideNavBar (Web Only) -->
+<nav class="hidden md:flex bg-surface dark:bg-inverse-surface fixed left-0 h-full w-64 border-r border-outline-variant dark:border-outline flex flex-col p-md space-y-sm z-30">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">KnowledgeHub</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Expert Network</p>
+</div>
+<ul class="space-y-sm flex-1">
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="quiz">quiz</span>
+<span class="font-label-md text-label-md">FAQ</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="contact_support">contact_support</span>
+<span class="font-label-md text-label-md">Ask a Query</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-bold rounded-xl transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="forum" style="font-variation-settings: 'FILL' 1;">forum</span>
+<span class="font-label-md text-label-md">Forum</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md">Leaderboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 h-full relative">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-inverse-surface w-full sticky top-0 z-40 border-b border-outline-variant dark:border-outline flex justify-between items-center px-lg py-sm">
+<div class="flex items-center gap-md md:hidden">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">KnowledgeCenter</span>
+</div>
+<div class="hidden md:flex flex-1 max-w-xl mx-lg relative focus-within:ring-2 focus-within:ring-primary/20 rounded-full">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-xs pl-xl pr-sm text-body-md font-body-md focus:ring-0 text-on-surface placeholder:text-on-surface-variant" placeholder="Search forum..." type="text"/>
+</div>
+<div class="flex items-center gap-md text-primary dark:text-primary-fixed-dim">
+<button class="p-xs rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-xs rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-md md:p-lg lg:p-xl bg-background">
+<!-- Page Header -->
+<div class="mb-xl max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-background mb-xs">Community Forum</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Engage with experts, ask questions, and share knowledge.</p>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md hover:bg-surface-tint transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> New Topic
+                </button>
+</div>
+<!-- Filters & Sort -->
+<div class="max-w-4xl mx-auto mb-lg flex flex-wrap gap-sm items-center justify-between">
+<div class="flex gap-sm">
+<button class="bg-secondary-container text-on-secondary-container px-md py-xs rounded-full font-label-md text-label-md border border-transparent">Trending</button>
+<button class="bg-surface text-on-surface-variant px-md py-xs rounded-full font-label-md text-label-md border border-outline-variant hover:bg-surface-container-low">Latest</button>
+<button class="bg-surface text-on-surface-variant px-md py-xs rounded-full font-label-md text-label-md border border-outline-variant hover:bg-surface-container-low">Unanswered</button>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span> Filter
+                </div>
+</div>
+<!-- Forum List (Accordion) -->
+<div class="max-w-4xl mx-auto space-y-sm pb-xxl">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest hairline-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-sm">
+<div class="accordion-header flex items-start gap-md p-lg cursor-pointer" onclick="toggleAccordion(this)">
+<div class="flex flex-col items-center min-w-[48px] bg-surface-container rounded-lg p-xs text-primary">
+<span class="material-symbols-outlined" data-icon="keyboard_arrow_up">keyboard_arrow_up</span>
+<span class="font-label-md text-label-md">342</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-on-background mb-xs">Best practices for optimizing React rendering performance in large lists?</h3>
+<div class="flex flex-wrap gap-xs mb-sm">
+<span class="bg-[#F0F9FF] text-[#0284C7] px-sm py-xs rounded font-label-md text-label-md text-[10px]">React</span>
+<span class="bg-[#F0F9FF] text-[#0284C7] px-sm py-xs rounded font-label-md text-label-md text-[10px]">Performance</span>
+<span class="bg-[#F0F9FF] text-[#0284C7] px-sm py-xs rounded font-label-md text-label-md text-[10px]">Frontend</span>
+</div>
+<div class="flex items-center gap-md font-body-sm text-body-sm text-on-surface-variant">
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="person">person</span> AlexD</span>
+<span>•</span>
+<span>2 hours ago</span>
+<span>•</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="chat_bubble">chat_bubble</span> 12 Answers</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant accordion-icon mt-sm" data-icon="expand_more">expand_more</span>
+</div>
+<div class="accordion-content bg-surface-container-low border-t border-outline-variant">
+<div class="p-lg">
+<p class="font-body-md text-body-md text-on-surface mb-md">
+                                I'm building a dashboard that needs to render a list of 5000+ complex items. Currently experiencing significant jank when scrolling. I've tried `React.memo` but it's not enough. What are the industry standard approaches for handling this efficiently?
+                            </p>
+<div class="pl-md border-l-2 border-primary mt-lg">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md text-primary">Accepted Answer</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mb-sm">
+                                    You should look into virtualization. Libraries like `react-window` or `react-virtuoso` only render the DOM nodes that are currently visible in the viewport, which drastically reduces memory footprint and layout recalculation time.
+                                </p>
+<div class="text-right">
+<button class="text-primary font-label-md text-label-md hover:underline">Read full thread</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest hairline-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-sm">
+<div class="accordion-header flex items-start gap-md p-lg cursor-pointer" onclick="toggleAccordion(this)">
+<div class="flex flex-col items-center min-w-[48px] bg-surface-container rounded-lg p-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="keyboard_arrow_up">keyboard_arrow_up</span>
+<span class="font-label-md text-label-md">128</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-on-background mb-xs">Understanding CSS Grid vs Flexbox: When to use which?</h3>
+<div class="flex flex-wrap gap-xs mb-sm">
+<span class="bg-[#F0F9FF] text-[#0284C7] px-sm py-xs rounded font-label-md text-label-md text-[10px]">CSS</span>
+<span class="bg-[#F0F9FF] text-[#0284C7] px-sm py-xs rounded font-label-md text-label-md text-[10px]">Layout</span>
+</div>
+<div class="flex items-center gap-md font-body-sm text-body-sm text-on-surface-variant">
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="person">person</span> SarahStylist</span>
+<span>•</span>
+<span>5 hours ago</span>
+<span>•</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="chat_bubble">chat_bubble</span> 8 Answers</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant accordion-icon mt-sm" data-icon="expand_more">expand_more</span>
+</div>
+<div class="accordion-content bg-surface-container-low border-t border-outline-variant">
+<div class="p-lg">
+<p class="font-body-md text-body-md text-on-surface mb-md">
+                                The age-old question. I find myself defaulting to flexbox for everything, but I know grid is powerful. Are there clearcut rules on when grid is fundamentally better?
+                            </p>
+<div class="text-right">
+<button class="text-primary font-label-md text-label-md hover:underline">View 8 answers</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        function toggleAccordion(element) {
+            const header = element;
+            const content = element.nextElementSibling;
+            
+            // Close all other open accordions
+            const allHeaders = document.querySelectorAll('.accordion-header');
+            const allContents = document.querySelectorAll('.accordion-content');
+            
+            allHeaders.forEach((h, index) => {
+                if (h !== header && h.classList.contains('open')) {
+                    h.classList.remove('open');
+                    allContents[index].classList.remove('open');
+                }
+            });
+
+            // Toggle current
+            header.classList.toggle('open');
+            content.classList.toggle('open');
+        }
+    </script>
+</body></html>

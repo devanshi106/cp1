@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Home Dashboard - KnowledgeHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#141d21",
+                        "surface-container-high": "#e2e7ff",
+                        "secondary-fixed": "#c0e8ff",
+                        "surface-variant": "#dae2fd",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#7bd1fa",
+                        "inverse-surface": "#283044",
+                        "surface-container-highest": "#dae2fd",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container": "#eaedff",
+                        "surface": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#545d62",
+                        "surface-bright": "#faf8ff",
+                        "tertiary-fixed-dim": "#bfc8ce",
+                        "primary-container": "#007bb9",
+                        "primary-fixed-dim": "#93ccff",
+                        "tertiary-container": "#6d767b",
+                        "inverse-on-surface": "#eef0ff",
+                        "primary": "#006194",
+                        "surface-tint": "#006398",
+                        "on-surface-variant": "#3f4850",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#cce5ff",
+                        "background": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#005b78",
+                        "on-secondary-fixed-variant": "#004d66",
+                        "secondary": "#006686",
+                        "on-background": "#131b2e",
+                        "secondary-container": "#7ed4fd",
+                        "on-tertiary-fixed-variant": "#3f484d",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#004b73",
+                        "inverse-primary": "#93ccff",
+                        "surface-dim": "#d2d9f4",
+                        "outline-variant": "#bfc7d2",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#fbfdff",
+                        "tertiary-fixed": "#dbe4ea",
+                        "on-surface": "#131b2e",
+                        "on-primary-fixed": "#001d31",
+                        "on-secondary-fixed": "#001e2b",
+                        "outline": "#707881",
+                        "on-primary-container": "#fdfcff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin": "32px",
+                        "sm": "8px",
+                        "xxl": "96px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "unit": "4px",
+                        "xl": "48px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .hairline-border {
+            border: 1px solid #E2E8F0;
+        }
+        .glass-overlay {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row font-body-md text-body-md">
+<!-- TopNavBar (Mobile) -->
+<header class="md:hidden bg-surface text-primary font-body-md text-body-md docked full-width top-0 border-b border-outline-variant flat no shadows flex justify-between items-center px-lg py-sm w-full sticky z-40">
+<div class="flex items-center gap-sm focus-within:ring-2 focus-within:ring-primary/20">
+<span class="font-headline-md text-headline-md font-bold text-primary">KnowledgeCenter</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-sm rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-sm rounded-full">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex bg-surface text-primary font-label-md text-label-md fixed left-0 h-full w-64 border-r border-outline-variant flat no shadows flex-col p-md space-y-sm z-30 transition-all duration-200 ease-in-out">
+<div class="mb-lg px-md pt-md">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">KnowledgeHub</h1>
+<p class="text-on-surface-variant mt-xs">Expert Network</p>
+</div>
+<ul class="flex flex-col gap-sm flex-1">
+<li>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-bold rounded-xl hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+                    Home
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="quiz">quiz</span>
+                    FAQ
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+                    Ask a Query
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+                    Forum
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+                    Leaderboard
+                </a>
+</li>
+<li class="mt-auto">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                    Profile
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-gutter lg:p-margin pb-xxl md:pb-margin max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<header class="mb-xl">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-background">Good morning, Maya</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">Here's what's happening in your network today.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Pillar Cards (Top Row) -->
+<div class="md:col-span-4 bg-surface-container-lowest hairline-border p-lg rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="bg-[#F0F9FF] w-12 h-12 rounded-full flex items-center justify-center mb-md group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[#0284C7]" data-icon="smart_toy" data-weight="fill" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Ask the Assistant</h3>
+<p class="text-on-surface-variant text-body-sm">Get instant, AI-driven answers from the verified knowledge base.</p>
+</div>
+<div class="md:col-span-4 bg-surface-container-lowest hairline-border p-lg rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="bg-[#F0F9FF] w-12 h-12 rounded-full flex items-center justify-center mb-md group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[#0284C7]" data-icon="menu_book">menu_book</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Browse the FAQ</h3>
+<p class="text-on-surface-variant text-body-sm">Explore curated answers to the most common questions.</p>
+</div>
+<div class="md:col-span-4 bg-surface-container-lowest hairline-border p-lg rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="bg-[#F0F9FF] w-12 h-12 rounded-full flex items-center justify-center mb-md group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[#0284C7]" data-icon="groups">groups</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Ask the Community</h3>
+<p class="text-on-surface-variant text-body-sm">Post complex queries to subject matter experts and peers.</p>
+</div>
+<!-- Content Area (Bottom Row) -->
+<div class="md:col-span-8 bg-surface-container-lowest hairline-border p-lg rounded-xl flex flex-col">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Activity</h3>
+<button class="text-primary hover:text-surface-tint font-label-md text-label-md">View All</button>
+</div>
+<ul class="flex flex-col gap-md flex-1">
+<li class="flex items-start gap-md pb-md border-b border-outline-variant last:border-0 last:pb-0">
+<div class="bg-surface-container p-sm rounded-full mt-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="text-on-surface font-body-md">Your answer to <strong>"API Rate Limits"</strong> was marked as accepted.</p>
+<p class="text-on-surface-variant text-body-sm mt-xs">2 hours ago</p>
+</div>
+</li>
+<li class="flex items-start gap-md pb-md border-b border-outline-variant last:border-0 last:pb-0">
+<div class="bg-surface-container p-sm rounded-full mt-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="forum">forum</span>
+</div>
+<div>
+<p class="text-on-surface font-body-md">New comment on your query <strong>"Authentication Flow Architecture"</strong>.</p>
+<p class="text-on-surface-variant text-body-sm mt-xs">5 hours ago</p>
+</div>
+</li>
+<li class="flex items-start gap-md pb-md border-b border-outline-variant last:border-0 last:pb-0">
+<div class="bg-surface-container p-sm rounded-full mt-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="stars">stars</span>
+</div>
+<div>
+<p class="text-on-surface font-body-md">You earned the <strong>"Helpful Hand"</strong> badge.</p>
+<p class="text-on-surface-variant text-body-sm mt-xs">Yesterday</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Reputation Card -->
+<div class="md:col-span-4 bg-surface-container-lowest hairline-border p-lg rounded-xl flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-lg">Your Standing</h3>
+<div class="flex items-center gap-md mb-lg">
+<div class="w-16 h-16 rounded-full bg-[#F0F9FF] border border-[#7DD3FC] flex items-center justify-center overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a confident woman with dark hair tied back, smiling subtly, set against a pristine, brightly lit studio background adhering to a minimalist, high-key light-mode aesthetic. The portrait should feel crisp, airy, and professional, reflecting a sophisticated corporate identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe-u_vjfDaru05tqFc6JBKvCW7Qb4Jhs5nCpi98cM29C0OwYfinlrxKB7d-dkb6X-pV42-Hmus0Wh9EHYUOtyUDwGylpO0LtCkahRD6jWL2VojxlOLhMmM_Mu9IWMk0ycM0J8FmiMSlV8XMje4WtEk8FXtFEZM9d-N0zymYKpjU-mwa1-1vDpSCDkIqboWSg2qAXov7aM0unKOY-os80c95hcDAtwhAAHvSMUsFCBWS3iZk3ygHJrOGHZqWbG4q4Ezt75p_oMEnH0z"/>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-[#0284C7]">2,450</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Total Points</p>
+</div>
+</div>
+<div class="mb-sm flex justify-between items-end">
+<p class="font-label-md text-label-md text-on-surface">Level 4: Expert</p>
+<p class="font-label-md text-label-md text-on-surface-variant">50 pts to Level 5</p>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-[#7DD3FC] h-full" style="width: 80%;"></div>
+</div>
+<div class="mt-auto pt-lg">
+<button class="w-full border border-[#E2E8F0] text-[#0284C7] bg-transparent hover:bg-surface-container-low transition-colors py-sm px-md rounded-lg font-label-md text-label-md flex justify-center items-center gap-sm">
+                        View Full Profile
+                        <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
