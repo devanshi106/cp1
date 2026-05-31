@@ -4,7 +4,7 @@
 > Convention: `[ ]` todo · `[~]` in progress · `[x]` done · `[!]` blocked. Add new items as they surface — never delete, mark done. Reference `PLANNING.md` for the *why*.
 
 **Last updated:** 2026-05-30
-**Current focus:** Phase 2 — "Frozen Precision" frontend redesign + the backend features it implies (Milestones 9–14). MVP (1–8) shipped.
+**Current focus:** Phase 2 (Milestones 9–14) COMPLETE — "Frozen Precision" redesign + engagement/social backend shipped as a stacked PR chain. MVP (1–8) shipped.
 **Build approach:** vertical slice — one complete end-to-end loop before going wide. Phase 2 ships **one milestone per PR**, pushed cleanly, implemented only with the maintainer's go-ahead.
 
 ---
@@ -23,12 +23,11 @@
 | 8 | Polish & ship | Design, docs, deploy-ready | `[x]` |
 | — | **Phase 2 — Frozen Precision redesign** | _frontend parity + the backend it implies_ | |
 | 9 | Design system & app shell | Light theme tokens + sidebar shell (FE) | `[x]` |
-| 9 | Design system & app shell | Light theme tokens + sidebar shell (FE) | `[ ]` |
-| 10 | Home & FAQ re-skin | Dashboard + FAQ to reference (FE) | `[ ]` |
-| 11 | Forum & thread re-skin | Filters/sort/pagination + Markdown (FE) | `[ ]` |
-| 12 | Admin dashboard re-skin | KPIs + needs-attention + audit feed (FE) | `[ ]` |
-| 13 | Engagement backend | Votes, bookmarks, answer counts (BE+FE) | `[ ]` |
-| 14 | Activity/comments/settings | Feed, replies, settings, avatars (BE+FE) | `[ ]` |
+| 10 | Home & FAQ re-skin | Dashboard + FAQ to reference (FE) | `[x]` |
+| 11 | Forum & thread re-skin | Filters/sort/pagination + Markdown (FE) | `[x]` |
+| 12 | Admin dashboard re-skin | KPIs + needs-attention + audit feed (FE) | `[x]` |
+| 13 | Engagement backend | Votes, bookmarks, answer counts (BE+FE) | `[x]` |
+| 14 | Activity/comments/settings | Feed, replies, settings, avatars (BE+FE) | `[x]` |
 
 ---
 
@@ -186,64 +185,58 @@ Goal: the light "Frozen Precision" foundation everything else builds on. **Front
 - [x] Top bar: global search field, notification bell, user avatar (initials)
 - [x] "+ New Entry" sidebar button → `/ask`; Settings / Support placeholder routes
 - [x] Preserve existing features under the new shell (chatbot widget, ban banner); responsive (sidebar collapses on mobile)
-- [ ] Add **Inter** + port `DESIGN.md` tokens (color palette, 8px spacing rhythm, radii, type scale) into `styles.css`; switch dark → light theme
-- [ ] Button variants (primary solid / secondary outline / ghost), 1px-hairline cards, input focus glow, chips/tags per spec
-- [ ] **Left-sidebar app shell** (brand "Knowledge Hub" header; nav: Home / FAQ / Ask a Query / Forum / Leaderboard / Profile; footer: Settings / Support) wrapping all routes
-- [ ] Top bar: global search field, notification bell, user avatar (initials)
-- [ ] "+ New Entry" sidebar button → `/ask`; Settings / Support placeholder routes
-- [ ] Preserve existing features under the new shell (chatbot widget, ban banner); responsive (sidebar collapses on mobile)
 
 ## Milestone 10 — Home dashboard & FAQ re-skin
 
 Goal: match the reference Home + FAQ screens. **Frontend-only (existing APIs).**
 
-- [ ] Home: three action cards — Ask the Assistant / Browse the FAQ / Ask the Community
-- [ ] Home: reputation ring (points) + level & "pts to next tier" **derived client-side** from badge thresholds; streak chip in the header
-- [ ] Home: recent-badges strip (from the current user's profile)
-- [ ] FAQ: category accordions with **article counts**; "PROMOTED FROM Q&A" tag (`source === 'qa'`); per-category "view all"; semantic-search indicator
-- [ ] FAQ: "Still can't find it? → **Open a Ticket**" CTA → `/ask`
-- [ ] _Recent Activity feed deferred to M14 (needs backend)_
+- [x] Home: three action cards — Ask the Assistant / Browse the FAQ / Ask the Community
+- [x] Home: reputation ring (points) + level & "pts to next tier" **derived client-side** from badge thresholds; streak chip in the header
+- [x] Home: recent-badges strip (from the current user's profile)
+- [x] FAQ: category accordions with **article counts**; "PROMOTED FROM Q&A" tag (`source === 'qa'`); per-category "view all"; semantic-search indicator
+- [x] FAQ: "Still can't find it? → **Open a Ticket**" CTA → `/ask`
+- [~] _Recent Activity feed deferred to M14 (needs backend)_
 
 ## Milestone 11 — Forum list & question thread re-skin
 
 Goal: match Community Discussions + Question Thread. **Frontend (existing APIs) + Markdown.**
 
-- [ ] Forum list: filter dropdowns (category / tag / status — already supported by `listQueries`), "Newest First" sort, **pagination control** (`total/page/limit` already returned)
-- [ ] Forum list: card layout with status badge, body excerpt, author initials + relative time
-- [ ] Question thread: re-skin to the reference; answer sort toggle ("Highest Voted" is already the default order)
-- [ ] **Rich-text answer composer toolbar** (bold / italic / code / link) + **Markdown & code-block rendering** for questions/answers (e.g. `react-markdown` + highlighter)
-- [ ] Preserve existing actions: like, mark solution, report, edit/delete, promote-to-FAQ
-- [ ] _Question votes / downvotes / answer-count badges / replies deferred to M13–14_
+- [x] Forum list: filter controls (status dropdown; category/tag as filter inputs — categories aren't enumerated server-side) + URL-driven (so global search `?q=` works), "Newest First" sort label, **pagination control** (`total/page/limit`)
+- [x] Forum list: card layout with status badge, body excerpt, author initials + relative time
+- [x] Question thread: re-skin to the reference; answer **sort toggle** (Highest voted / Newest)
+- [x] **Rich-text answer composer toolbar** (bold / italic / code / link) + **Markdown & code-block rendering** for questions/answers (`react-markdown` + `remark-gfm` + `rehype-highlight`, lazy-split chunk)
+- [x] Preserve existing actions: like, mark solution, report, edit/delete, promote-to-FAQ
+- [~] _Question votes / downvotes / answer-count badges / replies deferred to M13–14_
 
 ## Milestone 12 — Admin dashboard re-skin
 
 Goal: match the "System Overview" screen. **Frontend (existing APIs + small derivations).**
 
-- [ ] KPI cards: Total Users, Open Questions, **Resolution Rate %** (resolved/total, derived), Mod Queue Size + load indicator, AI Status (from `/health`)
-- [ ] "Needs Attention" panel aggregating existing data: flagged content (reports), stale docs (`is_outdated`), pending approvals (`requires_approval`) — each linking to the relevant tab
-- [ ] Recent Audit Log feed on the overview (`listAudit`, latest N)
-- [ ] Keep the Moderation / Users / FAQ / Audit / Maintenance tabs
+- [x] KPI cards: Total Users, Open Questions, **Resolution Rate %** (resolved/total, derived), Mod Queue Size + load indicator, AI Status (from `/health`)
+- [x] "Needs Attention" panel aggregating existing data: flagged content (moderation queue), pending approvals (`requires_approval`), open questions — each deep-linking to the relevant view _(stale-docs item dropped: no server count for `is_outdated`)_
+- [x] Recent Audit Log feed on the overview (`getAudit`, latest 6)
+- [x] Keep the Moderation / Users / FAQ / Audit / Maintenance tabs
 
 ## Milestone 13 — Engagement backend (votes, bookmarks, answer counts)
 
 Goal: the data the reference cards & threads imply. **Backend + UI wiring.**
 
-- [ ] **Answer counts** on `listQueries` (aggregation or denormalized counter) → show on forum cards
-- [ ] **Question voting** (decision: up/down on queries) — model/fields + endpoints + UI vote rail
-- [ ] **Answer downvote** — extend likes into signed votes (or keep upvote + add downvote) + UI
-- [ ] **Save / bookmark questions** — `Bookmark` model + create/delete/list endpoints + bookmark button on the thread
-- [ ] Tests for every new endpoint; lint / test / build green
+- [x] **Answer counts** on `listQueries` (aggregation) → shown on forum cards + detail
+- [x] **Question voting** (up/down on queries) — `Vote` model + `vote_score` + `/queries/:id/vote` + thread vote rail + forum-card score (no reputation effect)
+- [x] **Answer downvote** — extended `Like` with a signed `value`; `/answers/:id/vote`; `/like` kept byte-compatible (upvotes still drive `like_count` + reputation; downvotes affect neither)
+- [x] **Save / bookmark questions** — `Bookmark` model + `/queries/:id/save` + `/queries/bookmarks` + Save button on the thread + a `/saved` page
+- [x] Tests for every new endpoint (`engagement.test.js`, 4 cases → 54 server tests); lint / build green
 
 ## Milestone 14 — Activity, comments, settings & profile backend
 
 Goal: remaining reference features that need backend. **Backend + UI wiring.**
 
-- [ ] **Recent-activity feed** endpoint (aggregate the user's queries/answers/saves) → Home feed
-- [ ] **Reply / comment on answers** — `Comment` model + endpoints (threading) + UI
-- [ ] **Settings page** — `GET`/`PATCH /api/users/me` for `notification_prefs` (+ basic profile)
-- [ ] **Avatars** — avatar field or initials/Gravatar across the UI; show author reputation on answer cards
-- [ ] Formalize **level/tier + pts-to-next** in the profile API (replacing M10's client derivation); add admin **resolution_rate** + AI uptime metric
-- [ ] Tests; lint / test / build green; refresh README screenshots
+- [x] **Recent-activity feed** — `GET /api/users/me/activity` (asked/answered/saved) → Home dashboard feed
+- [x] **Comments on answers** — `Comment` model + `POST /api/answers/:id/comments` + `DELETE /api/answers/comments/:id`, shown inline under each answer
+- [x] **Settings page** — `PATCH /api/users/me` for `notification_prefs` + display name; wired to an editable Settings form (AuthContext refresh)
+- [x] **Avatars + author reputation** — initials avatars across the UI; answer authors now show their reputation _(image-upload avatars deferred — initials only)_
+- [x] Formalize **level/tier + pts-to-next** in the profile API (`standing`, server-side `badgeService.standing`); admin **resolution_rate** metric + `/health` uptime
+- [x] Tests (`social.test.js`, 6 cases → 59 server tests); lint / build green; README features updated _(screenshots TODO — manual)_
 
 ---
 
