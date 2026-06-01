@@ -38,6 +38,7 @@ const answerSchema = new mongoose.Schema(
 
     is_deleted: { type: Boolean, default: false },
     deleted_at: { type: Date, default: null },
+    deleted_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
   },
   { timestamps: true },
 );

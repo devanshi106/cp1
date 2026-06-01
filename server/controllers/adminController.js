@@ -101,6 +101,10 @@ export const audit = asyncHandler(async (req, res) => {
   res.json(await adminService.listAudit(req.query));
 });
 
+export const recentDeletions = asyncHandler(async (_req, res) => {
+  res.json(await adminService.listRecentDeletions());
+});
+
 // Taxonomy management (admin-curated categories + tags).
 export const createTaxonomy = asyncHandler(async (req, res) => {
   res.status(201).json(await taxonomyService.createTerm(req.user, req.body?.kind, req.body?.name));

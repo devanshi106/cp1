@@ -84,6 +84,8 @@ export const SPAM_THRESHOLDS = Object.freeze({
 });
 
 // Time windows.
+export const EDIT_WINDOW_MINUTES = 15; // authors can edit their own post for this long
+export const ROLLBACK_WINDOW_MINUTES = 15; // admins/mods can undo a delete for this long
 export const GRACE_PERIOD_HOURS = 48; // solution finalization
 export const AUTO_BAN_HOURS = 24; // spam auto-ban
 export const LRU_ARCHIVE_DAYS = 90; // archive unaccessed resolved queries

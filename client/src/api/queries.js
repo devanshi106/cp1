@@ -42,6 +42,12 @@ export async function deleteQuery(id) {
   return data;
 }
 
+// Admin/moderator: restore a soft-deleted question (within the rollback window).
+export async function restoreQuery(id) {
+  const { data } = await api.post(`/queries/${id}/restore`);
+  return data;
+}
+
 export async function checkGrammar(text) {
   const { data } = await api.post('/queries/check-grammar', { text });
   return data;

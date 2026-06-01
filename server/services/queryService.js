@@ -17,7 +17,12 @@ import {
   QUERY_STATUS,
   ROLES,
   ATTENTION_FLAG_BADGE_KEY,
+  EDIT_WINDOW_MINUTES,
+  ROLLBACK_WINDOW_MINUTES,
 } from '../config/constants.js';
+
+const withinMinutes = (date, minutes) =>
+  date != null && Date.now() - new Date(date).getTime() <= minutes * 60 * 1000;
 
 const round = (x) => Math.round(x * 1000) / 1000;
 const asBool = (v) => v === true || v === 'true' || v === '1';
@@ -352,6 +357,12 @@ export async function updateQuery(user, id, payload) {
   if (String(doc.author_id) !== String(user._id)) {
     throw ApiError.forbidden('You can only edit your own query');
   }
+  // Authors may only edit within a short window after posting.
+  if (!withinMinutes(doc.createdAt, EDIT_WINDOW_MINUTES)) {
+    throw ApiError.forbidden(
+      `The ${EDIT_WINDOW_MINUTES}-minute edit window for this question has passed.`,
+    );
+  }
 
   const title = payload.title !== undefined ? String(payload.title).trim() : doc.title;
   const body = payload.body !== undefined ? String(payload.body).trim() : doc.body;
@@ -463,6 +474,28 @@ export async function deleteQuery(user, id) {
 
   doc.is_deleted = true;
   doc.deleted_at = new Date();
+  doc.deleted_by = user._id;
+  await doc.save();
+  return { ok: true };
+}
+
+/**
+ * Restore a soft-deleted question. Admins/moderators only, and only within the
+ * rollback window — the safety net for a mistaken deletion.
+ */
+export async function restoreQuery(user, id) {
+  const canModerate = user.role === ROLES.ADMIN || user.is_moderator;
+  if (!canModerate) throw ApiError.forbidden('Only moderators or admins can restore a question');
+
+  const doc = await Query.findById(id);
+  if (!doc || !doc.is_deleted) throw ApiError.notFound('No deleted question to restore');
+  if (!withinMinutes(doc.deleted_at, ROLLBACK_WINDOW_MINUTES)) {
+    throw ApiError.badRequest(`The ${ROLLBACK_WINDOW_MINUTES}-minute rollback window has passed.`);
+  }
+
+  doc.is_deleted = false;
+  doc.deleted_at = null;
+  doc.deleted_by = null;
   await doc.save();
   return { ok: true };
 }

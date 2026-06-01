@@ -22,8 +22,19 @@ export async function voteAnswer(answerId, value) {
   return data;
 }
 
+export async function updateAnswer(answerId, body) {
+  const { data } = await api.patch(`/answers/${answerId}`, { body });
+  return data.answer;
+}
+
 export async function deleteAnswer(answerId) {
   const { data } = await api.delete(`/answers/${answerId}`);
+  return data;
+}
+
+// Admin/moderator: restore a soft-deleted answer (within the rollback window).
+export async function restoreAnswer(answerId) {
+  const { data } = await api.post(`/answers/${answerId}/restore`);
   return data;
 }
 

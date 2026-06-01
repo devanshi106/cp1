@@ -31,6 +31,11 @@ export const remove = asyncHandler(async (req, res) => {
   res.json(result);
 });
 
+export const restore = asyncHandler(async (req, res) => {
+  const result = await queryService.restoreQuery(req.user, req.params.id);
+  res.json(result);
+});
+
 export const checkGrammar = asyncHandler(async (req, res) => {
   const result = await queryService.checkGrammar(req.body?.text);
   res.json(result);

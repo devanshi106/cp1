@@ -26,6 +26,7 @@ router.get('/:id', optionalAuth, ctrl.detail);
 router.post('/', auth, banCheck, aiLimiter, screenshotUpload, ctrl.create);
 router.patch('/:id', auth, banCheck, ctrl.update);
 router.delete('/:id', auth, ctrl.remove);
+router.post('/:id/restore', auth, ctrl.restore);
 
 // Engagement: up/down vote a question; bookmark/unbookmark it.
 router.post('/:id/vote', auth, banCheck, writeLimiter, ctrl.vote);

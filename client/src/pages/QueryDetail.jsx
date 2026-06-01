@@ -4,6 +4,7 @@ import { getQuery, deleteQuery, voteQuery, saveQuery, flagAttention } from '../a
 import {
   listAnswers,
   postAnswer,
+  updateAnswer,
   deleteAnswer,
   markHelpful,
   verifyAnswer,
@@ -12,6 +13,11 @@ import {
   addComment,
   deleteComment,
 } from '../api/answers.js';
+
+// Authors may edit their own post for 15 minutes after creating it.
+const EDIT_WINDOW_MS = 15 * 60 * 1000;
+const withinEditWindow = (createdAt) =>
+  createdAt && Date.now() - new Date(createdAt).getTime() <= EDIT_WINDOW_MS;
 import { useAuth } from '../context/AuthContext.jsx';
 import { promoteQuery } from '../api/faq.js';
 import Markdown from '../components/Markdown.jsx';
@@ -122,7 +128,7 @@ export default function QueryDetail() {
       <div className="detail-head">
         <h1>{query.title}</h1>
         <div className="row">
-          {query.is_owner && (
+          {query.is_owner && withinEditWindow(query.createdAt) && (
             <Link to={`/queries/${id}/edit`} className="btn-link">
               Edit
             </Link>
@@ -277,7 +283,24 @@ export default function QueryDetail() {
 
 function AnswerCard({ answer, isAdmin, canManage, canModerate, canComment, onChange }) {
   const [busy, setBusy] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(answer.body);
   const canDelete = answer.is_owner || canModerate;
+  const canEdit = answer.is_owner && withinEditWindow(answer.createdAt);
+
+  const onSaveEdit = async () => {
+    if (!draft.trim()) return;
+    setBusy(true);
+    try {
+      await updateAnswer(answer.id, draft.trim());
+      setEditing(false);
+      await onChange();
+    } catch (err) {
+      window.alert(err.response?.data?.error ?? 'Could not save your edit.');
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const onToggleHelpful = async () => {
     setBusy(true);
@@ -323,13 +346,38 @@ function AnswerCard({ answer, isAdmin, canManage, canModerate, canComment, onCha
             answer.is_accepted && <span className="badge accepted-badge">✓ Solution</span>
           )}
         </div>
-        <div className="answer-body">
-          <Markdown>{answer.body}</Markdown>
-        </div>
+        {editing ? (
+          <div className="answer-edit">
+            <MarkdownEditor value={draft} onChange={setDraft} rows={6} />
+            <div className="row">
+              <button className="btn-primary" onClick={onSaveEdit} disabled={busy || !draft.trim()}>
+                Save
+              </button>
+              <button
+                className="btn-link"
+                onClick={() => {
+                  setEditing(false);
+                  setDraft(answer.body);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="answer-body">
+            <Markdown>{answer.body}</Markdown>
+          </div>
+        )}
         <div className="answer-meta">
           <span className="by">
             <Author author={answer.author} /> · {relativeTime(answer.createdAt)}
           </span>
+          {canEdit && !editing && (
+            <button className="btn-link" onClick={() => setEditing(true)}>
+              Edit
+            </button>
+          )}
           {canManage && (
             <button className="btn-link" onClick={onToggleHelpful} disabled={busy}>
               {answer.is_helpful ? 'Reopen (remove helpful)' : 'Mark as helpful & close'}

@@ -14,6 +14,8 @@ router.post('/:id/verify', auth, admin, ctrl.verify);
 router.post('/:id/comments', auth, banCheck, writeLimiter, ctrl.comment);
 router.delete('/comments/:commentId', auth, ctrl.deleteComment);
 router.post('/:id/report', auth, banCheck, writeLimiter, ctrl.reportAnswer);
+router.patch('/:id', auth, banCheck, ctrl.update);
 router.delete('/:id', auth, ctrl.remove);
+router.post('/:id/restore', auth, ctrl.restore);
 
 export default router;

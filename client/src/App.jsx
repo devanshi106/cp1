@@ -24,6 +24,7 @@ import AdminFaqManager from './pages/admin/AdminFaqManager.jsx';
 import AdminTaxonomy from './pages/admin/AdminTaxonomy.jsx';
 import AdminUsers from './pages/admin/AdminUsers.jsx';
 import AdminAudit from './pages/admin/AdminAudit.jsx';
+import AdminRollback from './pages/admin/AdminRollback.jsx';
 import AdminMaintenance from './pages/admin/AdminMaintenance.jsx';
 
 export default function App() {
@@ -92,6 +93,7 @@ export default function App() {
             <Route path="taxonomy" element={<AdminTaxonomy />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="audit" element={<AdminAudit />} />
+            <Route path="rollback" element={<AdminRollback />} />
             <Route path="maintenance" element={<AdminMaintenance />} />
           </Route>
           <Route path="*" element={<NotFound />} />

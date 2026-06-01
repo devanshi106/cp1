@@ -15,7 +15,12 @@ import {
   MODERATION_TYPE,
   ROLES,
   VERIFIED_ANSWER_BADGE,
+  EDIT_WINDOW_MINUTES,
+  ROLLBACK_WINDOW_MINUTES,
 } from '../config/constants.js';
+
+const withinMinutes = (date, minutes) =>
+  date != null && Date.now() - new Date(date).getTime() <= minutes * 60 * 1000;
 
 function serializeAnswer(obj, viewerId) {
   const plain = typeof obj.toObject === 'function' ? obj.toObject() : obj;
@@ -132,6 +137,26 @@ export async function listAnswers(queryId, viewerId) {
       comments: commentMap.get(String(a._id)) ?? [],
     };
   });
+}
+
+/** Edit an answer (author only, within the edit window). */
+export async function updateAnswer(user, answerId, body) {
+  const text = String(body ?? '').trim();
+  if (!text) throw ApiError.badRequest('Answer body is required');
+
+  const answer = await Answer.findOne({ _id: answerId, is_deleted: false });
+  if (!answer) throw ApiError.notFound('Answer not found');
+  if (String(answer.author_id) !== String(user._id)) {
+    throw ApiError.forbidden('You can only edit your own answer');
+  }
+  if (!withinMinutes(answer.createdAt, EDIT_WINDOW_MINUTES)) {
+    throw ApiError.forbidden(`The ${EDIT_WINDOW_MINUTES}-minute edit window for this answer has passed.`);
+  }
+
+  answer.body = text;
+  await answer.save();
+  await answer.populate('author_id', 'name points badges');
+  return serializeAnswer(answer, user._id);
 }
 
 /** Add a comment under an answer. */
@@ -416,6 +441,30 @@ export async function deleteAnswer(user, answerId) {
   }
   answer.is_deleted = true;
   answer.deleted_at = new Date();
+  answer.deleted_by = user._id;
+  await answer.save();
+
+  await reconcileQueryStatus(answer.query_id);
+  return { ok: true };
+}
+
+/**
+ * Restore a soft-deleted answer. Admins/moderators only, within the rollback
+ * window — undoes a mistaken deletion and re-reconciles the query status.
+ */
+export async function restoreAnswer(user, answerId) {
+  const canModerate = user.role === ROLES.ADMIN || user.is_moderator;
+  if (!canModerate) throw ApiError.forbidden('Only moderators or admins can restore an answer');
+
+  const answer = await Answer.findById(answerId);
+  if (!answer || !answer.is_deleted) throw ApiError.notFound('No deleted answer to restore');
+  if (!withinMinutes(answer.deleted_at, ROLLBACK_WINDOW_MINUTES)) {
+    throw ApiError.badRequest(`The ${ROLLBACK_WINDOW_MINUTES}-minute rollback window has passed.`);
+  }
+
+  answer.is_deleted = false;
+  answer.deleted_at = null;
+  answer.deleted_by = null;
   await answer.save();
 
   await reconcileQueryStatus(answer.query_id);

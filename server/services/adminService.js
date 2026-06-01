@@ -13,6 +13,7 @@ import {
   MODERATION_STATUS,
   NOTIFICATION_TYPE,
   AMALGAMATION_SIMILARITY_THRESHOLD,
+  ROLLBACK_WINDOW_MINUTES,
 } from '../config/constants.js';
 
 const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -315,6 +316,43 @@ export async function clearAttention(admin, id) {
     details: {},
   });
   return { ok: true };
+}
+
+/**
+ * Recently soft-deleted questions and answers that are still within the rollback
+ * window — what the admin "Rollback" view offers to restore.
+ */
+export async function listRecentDeletions() {
+  const since = new Date(Date.now() - ROLLBACK_WINDOW_MINUTES * 60 * 1000);
+  const [queries, answers] = await Promise.all([
+    Query.find({ is_deleted: true, deleted_at: { $gte: since } })
+      .populate('deleted_by', 'name')
+      .sort({ deleted_at: -1 })
+      .lean(),
+    Answer.find({ is_deleted: true, deleted_at: { $gte: since } })
+      .populate('deleted_by', 'name')
+      .populate('query_id', 'title')
+      .sort({ deleted_at: -1 })
+      .lean(),
+  ]);
+
+  return {
+    window_minutes: ROLLBACK_WINDOW_MINUTES,
+    queries: queries.map((q) => ({
+      id: q._id,
+      title: q.title,
+      deleted_at: q.deleted_at,
+      deleted_by: q.deleted_by?.name ?? null,
+    })),
+    answers: answers.map((a) => ({
+      id: a._id,
+      query_id: a.query_id?._id ?? null,
+      query_title: a.query_id?.title ?? null,
+      excerpt: String(a.body ?? '').replace(/\s+/g, ' ').slice(0, 120),
+      deleted_at: a.deleted_at,
+      deleted_by: a.deleted_by?.name ?? null,
+    })),
+  };
 }
 
 /** Paginated audit log (most recent first). */

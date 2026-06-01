@@ -32,8 +32,18 @@ export const deleteComment = asyncHandler(async (req, res) => {
   res.json(result);
 });
 
+export const update = asyncHandler(async (req, res) => {
+  const answer = await answerService.updateAnswer(req.user, req.params.id, req.body?.body);
+  res.json({ answer });
+});
+
 export const remove = asyncHandler(async (req, res) => {
   const result = await answerService.deleteAnswer(req.user, req.params.id);
+  res.json(result);
+});
+
+export const restore = asyncHandler(async (req, res) => {
+  const result = await answerService.restoreAnswer(req.user, req.params.id);
   res.json(result);
 });
 

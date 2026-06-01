@@ -35,6 +35,9 @@ router.post('/queries/merge', ctrl.mergeQueries);
 router.post('/taxonomy', ctrl.createTaxonomy);
 router.delete('/taxonomy/:id', ctrl.deleteTaxonomy);
 
+// Rollback: recently deleted items still inside the undo window.
+router.get('/recent-deletions', ctrl.recentDeletions);
+
 // Audit log.
 router.get('/audit', ctrl.audit);
 

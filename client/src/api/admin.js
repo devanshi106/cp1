@@ -80,6 +80,12 @@ export async function getAudit(params = {}) {
   return data;
 }
 
+// Rollback: recently deleted questions/answers + restore actions.
+export async function getRecentDeletions() {
+  const { data } = await api.get('/admin/recent-deletions');
+  return data; // { window_minutes, queries, answers }
+}
+
 // Maintenance jobs (registry + manual trigger).
 export async function listJobs() {
   const { data } = await api.get('/jobs');
