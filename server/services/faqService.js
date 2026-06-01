@@ -4,7 +4,9 @@ import { Answer } from '../models/Answer.js';
 import { ai } from '../config/ai.js';
 import { ApiError } from '../utils/ApiError.js';
 import { cosineSimilarity } from './vectorService.js';
-import { FAQ_SOURCE } from '../config/constants.js';
+import { FAQ_SOURCE, FAQ_DUPLICATE_THRESHOLD } from '../config/constants.js';
+
+const round = (x) => Math.round(x * 1000) / 1000;
 
 const faqText = (question, answer) => `${question}\n\n${answer}`.trim();
 const strip = ({ embedding, __v, ...rest }) => ({ ...rest, id: rest._id }); // hide vector
@@ -47,11 +49,29 @@ export async function searchFaqs(query) {
 }
 
 /** Create a FAQ entry (admin or promotion); embeds its text for search/RAG. */
-export async function createFaq({ category, question, answer, sort_order = 0, source = FAQ_SOURCE.ADMIN, sourceQueryId = null }) {
+export async function createFaq({ category, question, answer, sort_order = 0, source = FAQ_SOURCE.ADMIN, sourceQueryId = null, force = false }) {
   if (!category || !question || !answer) {
     throw ApiError.badRequest('category, question and answer are required');
   }
   const embedding = await ai.embed(faqText(question, answer));
+
+  // Guard against adding a FAQ that already exists. Admin-authored entries are
+  // checked for an exact question match or a near-identical embedding; pass
+  // `force` to create anyway.
+  if (source === FAQ_SOURCE.ADMIN && !force) {
+    const lcQuestion = String(question).trim().toLowerCase();
+    const existing = await FaqEntry.find({ is_deleted: false }).select('question embedding').lean();
+    for (const e of existing) {
+      const sim = e.embedding ? cosineSimilarity(embedding, e.embedding) : 0;
+      if (e.question.trim().toLowerCase() === lcQuestion || sim >= FAQ_DUPLICATE_THRESHOLD) {
+        throw ApiError.conflict('A similar FAQ already exists.', {
+          duplicate: true,
+          existing: { id: e._id, question: e.question, score: round(sim) },
+        });
+      }
+    }
+  }
+
   const entry = await FaqEntry.create({
     category: String(category).trim(),
     question: String(question).trim(),

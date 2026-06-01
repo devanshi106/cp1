@@ -24,8 +24,26 @@ export default function AdminFaqManager() {
     e.preventDefault();
     setBusy(true);
     try {
-      if (editing) await updateFaq(editing, form);
-      else await createFaq(form);
+      if (editing) {
+        await updateFaq(editing, form);
+      } else {
+        try {
+          await createFaq(form);
+        } catch (err) {
+          // The server flags a near-duplicate FAQ — let the admin confirm.
+          const dup = err.response?.status === 409 && err.response?.data?.details?.duplicate;
+          if (dup) {
+            const existing = err.response.data.details.existing;
+            const ok = window.confirm(
+              `A similar FAQ already exists:\n\n“${existing.question}”\n\nCreate this one anyway?`,
+            );
+            if (!ok) return;
+            await createFaq({ ...form, force: true });
+          } else {
+            throw err;
+          }
+        }
+      }
       setForm(EMPTY);
       setEditing(null);
       await load();

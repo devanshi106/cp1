@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { listNotifications, getUnreadCount, markRead, markAllRead } from '../api/notifications.js';
@@ -10,6 +10,24 @@ export default function NotificationBell() {
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
+  const wrapRef = useRef(null);
+
+  // Close the panel on any click outside it (or Escape).
+  useEffect(() => {
+    if (!open) return undefined;
+    const onClick = (e) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('mousedown', onClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
 
   const refreshCount = useCallback(async () => {
     try {
@@ -56,7 +74,7 @@ export default function NotificationBell() {
   if (!user) return null;
 
   return (
-    <div className="bell-wrap">
+    <div className="bell-wrap" ref={wrapRef}>
       <button className="bell-btn" onClick={togglePanel} aria-label="Notifications">
         <span className="material-symbols-outlined">notifications</span>
         {count > 0 && <span className="bell-badge">{count > 9 ? '9+' : count}</span>}

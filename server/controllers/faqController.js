@@ -22,6 +22,7 @@ export const create = asyncHandler(async (req, res) => {
     question: req.body?.question,
     answer: req.body?.answer,
     sort_order: req.body?.sort_order,
+    force: req.body?.force === true || req.body?.force === 'true',
   });
   res.status(201).json({ entry });
 });

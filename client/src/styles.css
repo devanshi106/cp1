@@ -994,15 +994,18 @@ textarea {
 /* Admin */
 .admin-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
   border-bottom: 1px solid var(--border);
   margin-bottom: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .admin-tabs a {
   padding: 0.5rem 0.9rem;
   color: var(--muted);
   border-bottom: 2px solid transparent;
+  white-space: nowrap;
 }
 .admin-tabs a.active {
   color: var(--text);
@@ -2240,6 +2243,17 @@ select:focus,
 .auth-screen .container.narrow {
   width: 100%;
   max-width: 420px;
+  text-align: center;
+}
+/* Keep the form fields left-aligned while the heading + helper links center. */
+.auth-screen .form {
+  text-align: left;
+}
+.auth-screen .form button {
+  align-self: stretch;
+}
+.auth-screen p {
+  margin-top: 1rem;
 }
 
 /* Large, full-width primary button (auth screens). */

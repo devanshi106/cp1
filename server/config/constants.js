@@ -103,5 +103,9 @@ export const CHATBOT_MATCH_THRESHOLD = 0.3;
 // review (broader than the strict duplicate threshold).
 export const AMALGAMATION_SIMILARITY_THRESHOLD = 0.6;
 
+// FAQ near-duplicate guard: admin-created FAQs at/above this cosine similarity
+// (or an exact question match) are flagged so admins don't add the same FAQ twice.
+export const FAQ_DUPLICATE_THRESHOLD = 0.95;
+
 // Embedding dimensions (fixed). Mirrors AI_EMBED_DIMS env default.
 export const EMBEDDING_DIMS = 768;
