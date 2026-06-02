@@ -9,7 +9,12 @@ import { cosineSimilarity } from './vectorService.js';
 import { CHATBOT_MATCH_THRESHOLD } from '../config/constants.js';
 
 const FALLBACK =
-  "I couldn't find a confident match in the FAQ or the community Q&A. Try rephrasing your question, browse the FAQ, or ask the community directly.";
+  "I couldn't find this in the FAQ or the community forum. Try rephrasing your question, browse the FAQ, or open a ticket so the community can help.";
+
+// Shown when the FAQ has no confident answer: the assistant asks permission
+// before searching the community forum (mirrors the FAQ search-bar prompt).
+const FORUM_CONSENT =
+  "I couldn't find this in the FAQ. Do you want me to check the community forum for a related discussion?";
 
 // Best-scoring document by cosine similarity to the question embedding.
 function bestMatch(qEmbed, docs) {
@@ -73,10 +78,13 @@ async function getOrCreateSession(token, userId) {
 }
 
 /**
- * Two-tier RAG (PLANNING §9): embed → Tier 1 FAQ → Tier 2 community Q&A →
- * compose with citations, else graceful fallback. Persists the exchange.
+ * Consent-gated RAG (PLANNING §9): the assistant answers from the FAQ first and
+ * points there. When the FAQ has no confident match it does NOT silently fall
+ * through to the forum — it asks the user for permission (`await_forum`). Only
+ * once the caller re-asks with `checkForum: true` does it search the resolved
+ * community Q&A and redirect to the matching forum thread. Persists the exchange.
  */
-export async function ask({ sessionToken, userId, message }) {
+export async function ask({ sessionToken, userId, message, checkForum = false }) {
   const text = String(message ?? '').trim();
   if (!text) throw ApiError.badRequest('Message is required');
 
@@ -85,23 +93,35 @@ export async function ask({ sessionToken, userId, message }) {
 
   let reply;
 
-  // Tier 1 — curated FAQ.
-  const faqs = await FaqEntry.find({ is_deleted: false }).select('question answer embedding').lean();
-  const faqHit = bestMatch(qEmbed, faqs);
+  if (!checkForum) {
+    // Tier 1 — curated FAQ. The assistant answers from the FAQ and points there.
+    const faqs = await FaqEntry.find({ is_deleted: false })
+      .select('question answer embedding')
+      .lean();
+    const faqHit = bestMatch(qEmbed, faqs);
 
-  if (faqHit && faqHit.score >= CHATBOT_MATCH_THRESHOLD) {
-    const f = faqHit.doc;
-    const content = await compose(
-      buildPrompt(text, 'FAQ entry', `Q: ${f.question}\nA: ${f.answer}`),
-      f.answer,
-    );
-    reply = {
-      content,
-      source_tier: 'faq',
-      citations: [{ kind: 'faq', ref_id: f._id, title: f.question }],
-    };
+    if (faqHit && faqHit.score >= CHATBOT_MATCH_THRESHOLD) {
+      const f = faqHit.doc;
+      const content = await compose(
+        buildPrompt(text, 'FAQ entry', `Q: ${f.question}\nA: ${f.answer}`),
+        f.answer,
+      );
+      reply = {
+        content,
+        source_tier: 'faq',
+        citations: [{ kind: 'faq', ref_id: f._id, title: f.question }],
+      };
+    } else {
+      // Not in the FAQ — ask permission before touching the forum database.
+      reply = {
+        content: FORUM_CONSENT,
+        source_tier: 'await_forum',
+        awaiting_forum: true,
+        citations: [],
+      };
+    }
   } else {
-    // Tier 2 — resolved community Q&A.
+    // Consent granted — Tier 2 search over resolved community Q&A, then redirect.
     const queries = await Query.find({
       is_deleted: false,
       accepted_answer_id: { $ne: null },
@@ -129,7 +149,9 @@ export async function ask({ sessionToken, userId, message }) {
     }
   }
 
-  session.messages.push({ role: 'user', content: text });
+  // Persist. On the consent step the user's turn is the original question; on
+  // the forum check the user's turn is their "yes".
+  session.messages.push({ role: 'user', content: checkForum ? 'Yes, check the forum.' : text });
   session.messages.push({
     role: 'assistant',
     content: reply.content,

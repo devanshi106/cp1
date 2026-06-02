@@ -105,21 +105,33 @@ describe('RAG chatbot', () => {
     expect(session.body.messages).toHaveLength(4); // 2 user + 2 assistant
   });
 
-  test('Tier 2: falls through to a resolved community answer', async () => {
+  test('Tier 2: asks permission, then returns a resolved community answer on consent', async () => {
     const { query } = await resolvedQuery(); // no FAQ seeded → Tier 1 misses
 
-    const res = await request(app)
+    // First ask: FAQ miss → assistant asks to check the forum (no auto-search).
+    const offer = await request(app)
       .post('/api/chatbot/ask')
       .send({ message: 'How do I configure the database connection?' });
+    expect(offer.body.source_tier).toBe('await_forum');
+    expect(offer.body.awaiting_forum).toBe(true);
+    expect(offer.body.citations).toHaveLength(0);
+
+    // Consent granted: now it searches the forum and redirects to the thread.
+    const res = await request(app).post('/api/chatbot/ask').send({
+      message: 'How do I configure the database connection?',
+      session_token: offer.body.session_token,
+      check_forum: true,
+    });
     expect(res.body.source_tier).toBe('community');
     expect(res.body.citations[0].kind).toBe('query');
     expect(String(res.body.citations[0].ref_id)).toBe(query.id);
   });
 
-  test('graceful fallback when nothing matches', async () => {
-    const res = await request(app)
-      .post('/api/chatbot/ask')
-      .send({ message: 'What is the airspeed velocity of an unladen swallow?' });
+  test('graceful fallback when nothing matches even after checking the forum', async () => {
+    const res = await request(app).post('/api/chatbot/ask').send({
+      message: 'What is the airspeed velocity of an unladen swallow?',
+      check_forum: true,
+    });
     expect(res.body.source_tier).toBe('fallback');
     expect(res.body.citations).toHaveLength(0);
   });

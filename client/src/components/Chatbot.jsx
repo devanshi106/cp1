@@ -10,6 +10,8 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
+  // The question awaiting the user's permission to search the forum (or null).
+  const [pending, setPending] = useState(null);
   const token = useRef(localStorage.getItem(TOKEN_KEY));
   const scrollRef = useRef(null);
 
@@ -38,17 +40,16 @@ export default function Chatbot() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [messages, busy]);
 
-  const send = async (e) => {
-    e.preventDefault();
-    const text = input.trim();
-    if (!text || busy) return;
-    setInput('');
-    setMessages((m) => [...m, { role: 'user', content: text }]);
+  // Shared call: answer from the FAQ first; on `checkForum` it searches the
+  // community forum and redirects to the matching thread.
+  const runAsk = async (text, checkForum) => {
     setBusy(true);
     try {
-      const res = await askChatbot(text, token.current);
+      const res = await askChatbot(text, token.current, checkForum);
       token.current = res.session_token;
       localStorage.setItem(TOKEN_KEY, res.session_token);
+      // Remember the question if the assistant is now waiting for a yes/no.
+      setPending(res.awaiting_forum ? text : null);
       setMessages((m) => [
         ...m,
         {
@@ -59,6 +60,7 @@ export default function Chatbot() {
         },
       ]);
     } catch {
+      setPending(null);
       setMessages((m) => [
         ...m,
         { role: 'assistant', content: 'Sorry, I had trouble answering. Please try again.', source_tier: 'fallback' },
@@ -66,6 +68,38 @@ export default function Chatbot() {
     } finally {
       setBusy(false);
     }
+  };
+
+  const send = async (e) => {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || busy) return;
+    setInput('');
+    setMessages((m) => [...m, { role: 'user', content: text }]);
+    await runAsk(text, false);
+  };
+
+  // User consents → search the forum database for the pending question.
+  const checkForum = async () => {
+    if (busy || !pending) return;
+    const q = pending;
+    setPending(null);
+    setMessages((m) => [...m, { role: 'user', content: 'Yes, check the forum.' }]);
+    await runAsk(q, true);
+  };
+
+  // User declines → stay in the FAQ; never touch the forum database.
+  const declineForum = () => {
+    if (busy) return;
+    setPending(null);
+    setMessages((m) => [
+      ...m,
+      {
+        role: 'assistant',
+        content: 'No problem. You can browse the FAQ or open a ticket and the community will help.',
+        source_tier: 'fallback',
+      },
+    ]);
   };
 
   return (
@@ -80,30 +114,51 @@ export default function Chatbot() {
           <div className="chat-messages" ref={scrollRef}>
             {messages.length === 0 && (
               <p className="muted chat-hint">
-                Ask a question and I'll search the FAQ and community answers.
+                Ask a question and I'll answer from the FAQ first — if it's not there, I'll offer to
+                check the community forum.
               </p>
             )}
-            {messages.map((m, i) => (
-              <div key={i} className={`chat-msg ${m.role}`}>
-                <div className="bubble">{m.content}</div>
-                {m.role === 'assistant' && m.source_tier && m.source_tier !== 'fallback' && (
-                  <div className="chat-cite">
-                    Source: {TIER_LABEL[m.source_tier] ?? m.source_tier}
-                    {m.citations?.map((c) =>
-                      c.kind === 'query' ? (
-                        <Link key={c.ref_id} to={`/queries/${c.ref_id}`}>
-                          {c.title}
-                        </Link>
-                      ) : (
-                        <span key={c.ref_id} className="cite-faq">
-                          {c.title}
-                        </span>
-                      ),
+            {messages.map((m, i) => {
+              const awaiting =
+                m.role === 'assistant' &&
+                m.source_tier === 'await_forum' &&
+                i === messages.length - 1 &&
+                !!pending;
+              return (
+                <div key={i} className={`chat-msg ${m.role}`}>
+                  <div className="bubble">{m.content}</div>
+                  {awaiting && (
+                    <div className="chat-consent">
+                      <button className="btn-primary btn-sm" onClick={checkForum} disabled={busy}>
+                        Yes, check the forum
+                      </button>
+                      <button className="btn-ghost btn-sm" onClick={declineForum} disabled={busy}>
+                        No, thanks
+                      </button>
+                    </div>
+                  )}
+                  {m.role === 'assistant' &&
+                    m.source_tier &&
+                    m.source_tier !== 'fallback' &&
+                    m.source_tier !== 'await_forum' && (
+                      <div className="chat-cite">
+                        Source: {TIER_LABEL[m.source_tier] ?? m.source_tier}
+                        {m.citations?.map((c) =>
+                          c.kind === 'query' ? (
+                            <Link key={c.ref_id} to={`/queries/${c.ref_id}`}>
+                              {c.title}
+                            </Link>
+                          ) : (
+                            <span key={c.ref_id} className="cite-faq">
+                              {c.title}
+                            </span>
+                          ),
+                        )}
+                      </div>
                     )}
-                  </div>
-                )}
-              </div>
-            ))}
+                </div>
+              );
+            })}
             {busy && <div className="chat-msg assistant"><div className="bubble">…</div></div>}
           </div>
           <form className="chat-input" onSubmit={send}>

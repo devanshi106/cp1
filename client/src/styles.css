@@ -1152,6 +1152,29 @@ textarea {
   border-bottom: 1px solid var(--border);
 }
 
+/* "Not in the FAQ — check the forum?" consent prompt on the FAQ search page. */
+.forum-offer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.forum-offer p {
+  margin: 0;
+}
+
+/* Yes/No buttons under the chatbot's "check the forum?" prompt. */
+.chat-consent {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+.btn-sm {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+}
+
 /* Author identity: name on one line, held badge underneath. */
 .author-id {
   display: inline-flex;

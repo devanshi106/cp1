@@ -83,7 +83,7 @@ Three **user-facing pillars**, supported by two **automation engines** and an **
 - **Pillar 2 — Ask a Query:** structured submission with quality gates (gibberish, auto-correct, duplicate detection) and context enrichment (email, screenshots).
 - **Pillar 3 — Q&A Forum:** community answering, liking, and resolution, with reputation rewards.
 - **Solution Marking Engine:** decides the canonical answer(s) for a query and promotes resolved Q&A into the FAQ.
-- **Two-Tier RAG Pipeline:** the chatbot retrieves from FAQ first, then community Q&A, then composes an AI response (with graceful fallback).
+- **Consent-gated two-tier RAG pipeline:** the chatbot retrieves from the FAQ first; if there's no confident match it **asks permission** before searching the community Q&A, then composes an AI response and redirects to the forum thread (with graceful fallback).
 - **Admin & Governance:** everything that keeps the system healthy and trustworthy.
 
 ---
@@ -244,11 +244,21 @@ Path B: no selection → 48h after first answer → auto-keep most liked → no 
 Both: prune extras (if >3), status = resolved, promote into knowledge base
 ```
 
-### Two-tier RAG chatbot
+### Consent-gated two-tier RAG chatbot
+
+The chatbot (and the FAQ search bar) answer from the FAQ first and **ask before
+searching the community forum** — the forum is never silently mixed into FAQ
+results.
+
 ```
-Message → embed → Tier 1: search FAQ → Tier 2: search community Q&A
-        → compose answer with citations (gemini-2.5-flash)
-        → no match or 429 → graceful fallback ("try the FAQ / ask in the forum")
+Message → embed → Tier 1: search FAQ
+        → FAQ hit → compose answer with citation (gemini-2.5-flash), point to the FAQ
+        → FAQ miss → source_tier:"await_forum" → "Not in the FAQ. Check the forum?" (Yes/No)
+            → user says Yes (re-ask with check_forum:true)
+                → Tier 2: search resolved community Q&A
+                → match → answer + citation that redirects to the forum thread
+                → no match / 429 → graceful fallback ("browse the FAQ / open a ticket")
+            → user says No → stay in the FAQ; forum DB never queried
 ```
 
 ---

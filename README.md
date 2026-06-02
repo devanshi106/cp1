@@ -29,7 +29,7 @@ Built as an open-source internship project with **zero paid infrastructure**: th
 
 | Pillar | What it does |
 |---|---|
-| **FAQ + AI Chatbot** | Category-organized FAQ with hybrid keyword + semantic search, fronted by a two-tier RAG chatbot (FAQ → resolved community threads → AI compose). |
+| **FAQ + AI Chatbot** | Category-organized FAQ with hybrid keyword + semantic search. Both the **search bar** and the **AI chatbot** answer from the FAQ first and **ask before checking the community forum** — if there's no FAQ match they prompt *"Not in the FAQ — do you want me to check the forum?"* and only search the forum (then redirect to the matching thread) once you say yes. |
 | **Ask a Query** | Structured intake with gibberish detection, opt-in grammar auto-correction, duplicate detection, **admin-curated categories/tags** (users pick from the list or "Others" — no free-form tagging), a required **joining date** and **contact email**, and screenshots. Posting is always attributed — **no anonymous posting**. |
 | **Q&A Forum** | A support-ticket model: any member answers (but **not on their own question**); only the poster — or a moderator/admin — rates/closes answers, and discussion stays poster ↔ answerer (no peer voting or cross-talk). Question voting, bookmarks, full-text + semantic **forum search**, and reporting included; resolved questions sink to the bottom of the list. |
 | **Solution Marking Engine** | The poster (or a moderator/admin) marks an answer "helpful" to close the thread; **admins can mark an answer "Admin Verified"**; resolved, high-value threads can be promoted into the canonical FAQ. |
@@ -58,11 +58,29 @@ A query moves through a clear lifecycle, with quality gates at the front door so
 - **Admin verification** — an admin can mark any answer **"Admin Verified."** Verified answers are pinned to the top of the thread and earn their author the persistent **Admin Verified** badge.
 - **Editing window** — authors can edit their own question or answer for **15 minutes** after posting; afterwards the content is locked.
 - **Escalation:** a member holding the **Expert** badge — or any **moderator** — can flag a question as **"Needs admin attention,"** routing it to the admin attention queue.
-- **Browsing & search** — the forum list keeps unanswered questions up top and **sinks resolved ones to the bottom**; questions are searchable (keyword + semantic) and also surface in the knowledge-base search alongside FAQ entries.
+- **Browsing & search** — the forum list keeps unanswered questions up top and **sinks resolved ones to the bottom**; questions are searchable (keyword + semantic). The knowledge-base search and the chatbot only reach into the forum **after the user opts in** (see *Finding answers* below) — the forum is never silently mixed into FAQ results.
 - **Attachments** — screenshots are shown as "*N attachments added — click to view*" and open in an in-app **zoomable viewer** (no forced downloads).
 - Resolved, high-value threads can be **promoted into the FAQ**, turning a one-off answer into permanent, searchable knowledge.
 
 **3. Status lifecycle:** `Open → Answered → Resolved → (Archived)`. Unused resolved threads are LRU-archived over time and quietly un-archived the moment someone opens them again. If an answer is later deleted (including by a moderator/admin), the thread's status is **automatically reconciled** — a question never shows as "resolved" once it has no answers left, and a deleted accepted answer clears the solution. Deletions are **reversible by an admin or moderator for 15 minutes** via the admin Rollback view.
+
+---
+
+## How Curio helps you **find answers**
+
+The FAQ is always the first place we look — and we only reach into the community forum **with your permission**. The search bar and the chatbot follow the same two-step contract:
+
+**FAQ search bar** (the *Browse FAQs* page)
+1. As you type, Curio searches the **curated FAQ** semantically and shows matching entries.
+2. If nothing matches, the page asks: **"Not in the FAQ — do you want me to check in the forum?"** with a **Yes, check the forum** button. The forum database is *not* touched until you click it.
+3. On **Yes**, Curio searches the community forum and lists matching questions; clicking one **redirects you to that forum thread**. If the forum has nothing either, it points you to *open a ticket*.
+
+**AI chatbot** (the floating assistant)
+1. The assistant answers from the **FAQ first** and cites the FAQ entry it used.
+2. If the FAQ has no confident answer, it does **not** silently search the forum — it replies *"I couldn't find this in the FAQ. Do you want me to check the community forum?"* with **Yes / No** buttons.
+3. On **Yes**, it searches the resolved community Q&A and, on a match, **redirects you to the forum thread** (a clickable citation). On **No**, it stays put and suggests browsing the FAQ or opening a ticket.
+
+This keeps FAQ answers authoritative and makes any jump into community-sourced content an explicit, opt-in choice. Under the hood the chatbot's `/api/chatbot/ask` accepts a `check_forum` flag: the first call returns `source_tier: "await_forum"`, and the follow-up with `check_forum: true` returns the `community` match (or a `fallback`).
 
 ---
 

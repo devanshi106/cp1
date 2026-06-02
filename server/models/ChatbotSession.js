@@ -4,7 +4,11 @@ const messageSchema = new mongoose.Schema(
   {
     role: { type: String, enum: ['user', 'assistant'], required: true },
     content: { type: String, required: true },
-    source_tier: { type: String, enum: ['faq', 'community', 'ai', 'fallback', null], default: null },
+    source_tier: {
+      type: String,
+      enum: ['faq', 'community', 'ai', 'fallback', 'await_forum', null],
+      default: null,
+    },
     citations: {
       type: [
         {

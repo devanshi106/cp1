@@ -10,7 +10,8 @@ export default function Faq() {
   const [loading, setLoading] = useState(true);
   const [term, setTerm] = useState('');
   const [results, setResults] = useState(null);
-  const [forumResults, setForumResults] = useState([]);
+  const [forumResults, setForumResults] = useState(null); // null until the user opts in
+  const [checkingForum, setCheckingForum] = useState(false);
   const [openItems, setOpenItems] = useState({});
   const [openCats, setOpenCats] = useState({});
   const [showAll, setShowAll] = useState({});
@@ -34,27 +35,22 @@ export default function Faq() {
     };
   }, []);
 
-  // Dynamic search: query the FAQ semantically as the user types (debounced),
-  // so matching entries surface live without pressing a button.
+  // Dynamic search: query the FAQ semantically as the user types (debounced).
+  // The community forum is NOT searched here — only after the user opts in via
+  // the "check the forum" prompt shown when the FAQ has no match.
   useEffect(() => {
     if (!term.trim()) {
       setResults(null);
-      setForumResults([]);
+      setForumResults(null);
       return undefined;
     }
     let active = true;
+    // A new search invalidates any previous forum opt-in.
+    setForumResults(null);
     const t = setTimeout(async () => {
       try {
-        // Search both the FAQ and the community forum so questions asked in the
-        // forum surface here too.
-        const [faq, forum] = await Promise.all([
-          searchFaqs(term),
-          searchQueries(term).catch(() => []),
-        ]);
-        if (active) {
-          setResults(faq);
-          setForumResults(forum);
-        }
+        const faq = await searchFaqs(term);
+        if (active) setResults(faq);
       } catch {
         /* ignore transient search errors */
       }
@@ -66,6 +62,18 @@ export default function Faq() {
   }, [term]);
 
   const onSearch = (e) => e.preventDefault();
+
+  // The user said "yes, check the forum" → now search the community database.
+  const checkForum = async () => {
+    if (checkingForum) return;
+    setCheckingForum(true);
+    try {
+      const forum = await searchQueries(term).catch(() => []);
+      setForumResults(forum);
+    } finally {
+      setCheckingForum(false);
+    }
+  };
 
   const toggleItem = (key) => setOpenItems((o) => ({ ...o, [key]: !o[key] }));
   const toggleCat = (cat) => setOpenCats((o) => ({ ...o, [cat]: !o[cat] }));
@@ -109,7 +117,17 @@ export default function Faq() {
           <section>
             <h2>FAQ results</h2>
             {results.length === 0 ? (
-              <p className="muted">No matching FAQ entries. Try the chatbot or ask the community.</p>
+              // Not in the general FAQ → offer to check the forum (consent-gated).
+              forumResults === null ? (
+                <div className="forum-offer card">
+                  <p>
+                    <strong>Not in the FAQ.</strong> Do you want me to check in the forum?
+                  </p>
+                  <button className="btn-primary" onClick={checkForum} disabled={checkingForum}>
+                    {checkingForum ? 'Checking the forum…' : 'Yes, check the forum'}
+                  </button>
+                </div>
+              ) : null
             ) : (
               <div className="faq-accordion">
                 {results.map((r) => (
@@ -118,17 +136,24 @@ export default function Faq() {
               </div>
             )}
           </section>
-          {forumResults.length > 0 && (
+          {forumResults !== null && (
             <section>
               <h2>Community questions</h2>
-              <ul className="forum-results">
-                {forumResults.map((r) => (
-                  <li key={r.id}>
-                    <Link to={`/queries/${r.id}`}>{r.title}</Link>
-                    <span className={`badge status-${r.status}`}>{r.status}</span>
-                  </li>
-                ))}
-              </ul>
+              {forumResults.length === 0 ? (
+                <p className="muted">
+                  Nothing in the forum either. <Link to="/ask">Open a ticket</Link> and the community
+                  will help.
+                </p>
+              ) : (
+                <ul className="forum-results">
+                  {forumResults.map((r) => (
+                    <li key={r.id}>
+                      <Link to={`/queries/${r.id}`}>{r.title}</Link>
+                      <span className={`badge status-${r.status}`}>{r.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </section>
           )}
         </>

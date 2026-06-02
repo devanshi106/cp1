@@ -6,6 +6,7 @@ export const ask = asyncHandler(async (req, res) => {
     sessionToken: req.body?.session_token,
     userId: req.userId ?? null,
     message: req.body?.message,
+    checkForum: Boolean(req.body?.check_forum),
   });
   res.json(result);
 });
