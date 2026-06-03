@@ -1,4 +1,4 @@
-# Curio Wiki: Platform Documentation
+<h1 align="center">Curio Wiki: Platform Documentation</h1>
 
 **Curio** is a self-contained community knowledge platform that unifies everything a team needs to capture, organize, and grow its collective knowledge. Featuring a curated FAQ, a grounded AI chatbot, and a structured Q&A forum, Curio is built to improve itself over time by automatically promoting high-value community answers, archiving inactive threads, and filtering out low-quality queries.
 
@@ -8,7 +8,7 @@
 
 To navigate the documentation, follow the sequential order:
 
-1. **Element 1: Authentication & User Accounts**: Covers user identity, register/login flows, secure token rotation, notification preferences, and account ban controls. *(This Page)*
+1. **Element 1: Authentication & User Accounts**: Covers user identity, register/login flows, secure token rotation, notification preferences, and account ban controls.
 2. **Element 2: Ask a Query & Forum Engine**: Details query submission quality gates (gibberish/spam/duplicate detection), the ticket-like forum answering loop, voting, bookmarks, and automated solution finalization.
 3. **Element 3: Reputation, Badges & Moderation**: Explains the community points system, positive badge tiers, negative flags, expert-to-moderator applications, and admin-verified answers.
 4. **Element 4: FAQ Knowledge Base & AI Chatbot**: Discusses FAQ search, category accordions, promote-to-FAQ promotion, and the tiered grounded chatbot RAG pipeline.
@@ -19,7 +19,7 @@ To navigate the documentation, follow the sequential order:
 
 # Element 1: Authentication & User Accounts
 
-Curio implements a secure authentication model using JSON Web Tokens (JWT) and a stateful refresh token database. At the heart of this system is the Curio Gatekeeper, which manages user identities, system permissions, and community governance. It ensures that every contribution is attributed, every session is secure, and the community remains safe and productive.
+Curio implements a secure authentication model using JSON Web Tokens (JWT) and a stateful refresh token database. At the heart of this system is the Curio Gatekeeper, which manages user identities, system permissions, and community moderation. It ensures that every contribution is attributed, every session is secure, and the community remains safe and productive.
 
 ## What Makes Curio's Identity System Unique?
 
@@ -30,7 +30,7 @@ Curio implements a secure authentication model using JSON Web Tokens (JWT) and a
 
 ---
 
-## The Guided Tour of Identity & Governance
+## The Guided Tour of Identity & Moderation
 
 Here is an overview of how user accounts, permissions, and security rules operate in Curio, explained in simple language:
 
